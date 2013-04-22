@@ -1,0 +1,50 @@
+$def with(login)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Login</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" />
+</head>
+<style type="text/css">
+body {margin:0px auto;background-color:#0b3b41;"Times New Roman",Georgia,Serif;line-height:22px;font-size:14px;color:#000000}
+</style>
+</head>
+<body>
+<!--
+<div class="login">
+<form action="" method="post">
+$:login.render()
+</form>
+</div>
+-->
+<center style="margin:150px auto;">
+<table>
+<tr>
+<td>
+<form class="form-horizontal" method="POST">
+<div class="control-group">
+<label class="control-label" for="username">用户名</label>
+<div class="controls">
+<input type="text" name="username" id="username" placeholder="用户名">
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" for="password">密码</label>
+<div class="controls">
+<input type="password" name="password" id="password" placeholder="密码">
+</div>
+</div>
+<div class="control-group">
+<div class="controls">
+<button type="submit" class="btn">登录</button>
+</div>
+</div>
+</form>
+</td>
+</tr>
+</table>
+</center>
+</body>
+</html>

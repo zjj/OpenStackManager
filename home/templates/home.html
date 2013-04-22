@@ -1,0 +1,13 @@
+$def with(ctx)
+
+$var username: $ctx.username
+
+<table class='table'>
+    <tr>
+        <th>主机名</th><th>image</th><th>flavor</th><th>ip</th><th>state</th>
+    </tr>
+$for s in ctx.servers:
+    <tr>
+        <td>$s.server_name</td><td>$s.image</td><td>$s.flavor</td><td>$s.floating_ip</td><td>$s.state</td>
+    </tr>
+</table>

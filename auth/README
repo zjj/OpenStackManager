@@ -1,0 +1,14 @@
+Example:
+$python
+>>> from auth import User
+>>> x = User(username="jj",password="123456",email="zhongjj@lemote.com",is_superuser=True)
+>>> x.save()
+
+if you want to use session,you have to edit the login.py like below
+
+-web.config.debug = True
++web.config.debug = False
+
+that will ture off debug!
+
+
