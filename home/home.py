@@ -15,7 +15,7 @@ class Home:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
         if userid == -1:
-            web.seeother('/auth/login', absolute=True)
+            web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
         servers = get_servers(userid)
         ctx = Storage(username=username,servers=servers)
