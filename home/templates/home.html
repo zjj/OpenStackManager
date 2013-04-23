@@ -2,12 +2,84 @@ $def with(ctx)
 
 $var username: $ctx.username
 
+$ csrf_token = csrf()
+
+<form action="" method=POST>
+<input type=hidden name=csrf_token value="$csrf_token">
+<fieldset>
+<legend>My servers</legend>
 <table class='table'>
     <tr>
-        <th>主机名</th><th>image</th><th>flavor</th><th>ip</th><th>state</th>
+        <th>server</th><th>image</th><th>flavor</th><th>ip</th><th>state</th><th>action</th>
     </tr>
 $for s in ctx.servers:
     <tr>
-        <td>$s.server_name</td><td>$s.image</td><td>$s.flavor</td><td>$s.floating_ip</td><td>$s.state</td>
+        <td>$s.server_name</td>
+        <td>$s.image</td>
+        <td>$s.flavor</td>
+        <td>$s.floating_ip</td>
+        <td>$s.state</td>
+        <td>
+            <select name="$s.server_id">
+                <option> </option>
+                <option>reboot</option>
+                <option>stop</option>
+                <option>delete</option>
+            </select>
+        </td>
     </tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+    <button class="btn btn-small btn-primary" type="submit">Submit</button>
+</td>
+</tr>
 </table>
+</fieldset>
+</form>
+
+
+
+
+<p>
+<form action="" method=POST>
+<input type=hidden name=csrf_token value="$csrf_token">
+<fieldset>
+<legend>Apply a new server</legend>
+<table class="table">
+<tr>
+    <th>server name</th>
+    <th>image</th>
+    <th>flavor</th>
+</tr>
+<tr>
+<td>
+    <input name="server_name" type="text" placeholder="Type a server name…">
+</td>
+<td>
+    <select name="image_name">
+        <option>ubuntu </option>
+        <option>redhat</option>
+        <option>debian</option>
+        <option>test</option>
+    </select>
+</td>
+<td>
+    <select name="flavor">
+        <option>1G... </option>
+        <option>2G... </option>
+        <option>3G... </option>
+        <option>4G... </option>
+    </select>
+</td>
+<td>
+    <button class="btn btn-small btn-primary" type="submit">Apply</button>
+</td>
+</tr>
+</table>
+</fieldset>
+</form>
