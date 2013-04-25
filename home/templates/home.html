@@ -4,57 +4,59 @@ $var username: $ctx.username
 
 $ csrf_token = csrf()
 
-<form action="" method=POST>
-<input type=hidden name=csrf_token value="$csrf_token">
-<fieldset>
-<legend>My servers</legend>
-<table class='table'>
+$if len(ctx.running_servers) != 0:
+    <form action="" method=POST>
+    <input type=hidden name=csrf_token value="$csrf_token">
+    <fieldset>
+    <legend>
+    <legend>My servers  <span class="label label-info">the servers that are running</span> </legend>
+    </legend>
+    <table class='table'>
+        <tr>
+            <th>server</th><th>image</th><th>flavor</th><th>ip</th><th>action</th>
+        </tr>
+    $for s in ctx.running_servers:
+        <tr>
+            <td>$s.name</td>
+            <td>$s.image['id']</td>
+            <td>$s.flavor['id']</td>
+            <td>
+                $for address in s.addresses['private']:
+                    $address['addr'] 
+            </td>
+            <td>
+                <select name="s.id">
+                    <option> </option>
+                    <option>reboot</option>
+                    <option>stop</option>
+                    <option>delete</option>
+                </select>
+            </td>
+        </tr>
     <tr>
-        <th>server</th><th>image</th><th>flavor</th><th>ip</th><th>state</th><th>action</th>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class="btn btn-small btn-primary" type="submit">Submit</button>
+    </td>
     </tr>
-$for s in ctx.servers:
-    <tr>
-        <td>$s.server_name</td>
-        <td>$s.image</td>
-        <td>$s.flavor</td>
-        <td>$s.floating_ip</td>
-        <td>$s.state</td>
-        <td>
-            <select name="$s.server_id">
-                <option> </option>
-                <option>reboot</option>
-                <option>stop</option>
-                <option>delete</option>
-            </select>
-        </td>
-    </tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>
-    <button class="btn btn-small btn-primary" type="submit">Submit</button>
-</td>
-</tr>
-</table>
-</fieldset>
-</form>
-
-
-
+    </table>
+    </fieldset>
+    </form>
 
 <p>
 <form action="" method=POST>
 <input type=hidden name=csrf_token value="$csrf_token">
 <fieldset>
-<legend>Apply a new server</legend>
+<legend>Apply a new server  <span class="label label-info">you could apply a new server here</span> </legend>
 <table class="table">
 <tr>
     <th>server name</th>
     <th>image</th>
     <th>flavor</th>
+    <th>ssh key</th>
 </tr>
 <tr>
 <td>
@@ -74,7 +76,10 @@ $for s in ctx.servers:
         <option>2G... </option>
         <option>3G... </option>
         <option>4G... </option>
-    </select>
+    </select></p>
+</td>
+<td>
+    <textarea name="public_key" rows="3"></textarea>
 </td>
 <td>
     <button class="btn btn-small btn-primary" type="submit">Apply</button>
@@ -83,3 +88,21 @@ $for s in ctx.servers:
 </table>
 </fieldset>
 </form>
+
+$if len(ctx.servers) != 0:
+    <p>
+    <fieldset>
+    <legend>Applied servers <span class="label label-info">these servers are pending</span> </legend>
+    <table class='table'>
+        <tr>
+            <th>server name</th><th>image</th><th>flavor</th>
+        </tr>
+    $for s in ctx.servers:
+        <tr>
+            <td>$s.server_name</td>
+            <td>$s.image</td>
+            <td>$s.flavor</td>
+        </tr>
+    </table>
+    </fieldset>
+

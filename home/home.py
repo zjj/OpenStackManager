@@ -3,6 +3,7 @@ import web
 from model import get_servers
 from auth import get_username
 from web.utils import Storage
+from fakeopenstack import get_tenant_id, get_tenant_servers 
 
 urls = (
     '','Home',
@@ -24,7 +25,6 @@ def csrf_protected(f):
 
 t_globals = {'csrf':csrf_token}
 
-
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base',globals=t_globals)
 
@@ -34,8 +34,15 @@ class Home:
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
-        servers = get_servers(userid)
-        ctx = Storage(username=username,servers=servers)
+        print 100*'*'
+        tenant_id = get_tenant_id(tenant_name=username)
+        print tenant_id
+        print 100*'*'
+        servers = get_servers(userid).list()
+        #servers = get_tenant_servers(tenant_id)
+        #running_servers = [Storage(server_name="jj",image="jj_image", flavor="ubuntu", ip="11.11.11.11"),]
+        running_servers = get_tenant_servers(tenant_id)
+        ctx = Storage(username=username, servers=servers, running_servers=running_servers)
         return render.home(ctx)
     
     @csrf_protected
@@ -45,7 +52,5 @@ class Home:
             pass    #action
         #raise  web.seeother('')
         return request
-
-            
 
 home_app = web.application(urls, locals(), autoreload=True)
