@@ -3,7 +3,7 @@ import web
 from model import get_servers
 from auth import get_username
 from web.utils import Storage
-from fakeopenstack import get_tenant_id, get_tenant_servers 
+from fakeopenstack import * 
 
 urls = (
     '','Home',
@@ -34,15 +34,13 @@ class Home:
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
-        print 100*'*'
         tenant_id = get_tenant_id(tenant_name=username)
         print tenant_id
-        print 100*'*'
         servers = get_servers(userid).list()
-        #servers = get_tenant_servers(tenant_id)
-        #running_servers = [Storage(server_name="jj",image="jj_image", flavor="ubuntu", ip="11.11.11.11"),]
         running_servers = get_tenant_servers(tenant_id)
-        ctx = Storage(username=username, servers=servers, running_servers=running_servers)
+        images = get_images(tenant_id)
+        images_dict = dict([(i.id, i.name) for i in images])
+        ctx = Storage(locals())
         return render.home(ctx)
     
     @csrf_protected

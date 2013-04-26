@@ -18,11 +18,11 @@ $if len(ctx.running_servers) != 0:
     $for s in ctx.running_servers:
         <tr>
             <td>$s.name</td>
-            <td>$s.image['id']</td>
+            <td>$ctx.images_dict[s.image['id']]</td>
             <td>$s.flavor['id']</td>
             <td>
                 $for address in s.addresses['private']:
-                    $address['addr'] 
+                    $address['addr']    
             </td>
             <td>
                 <select name="s.id">

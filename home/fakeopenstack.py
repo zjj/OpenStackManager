@@ -25,3 +25,7 @@ def get_tenant_servers(tenant_id=None):
         tenant_servers = [x for x in servers if x.tenant_id == tenant_id]
         return tenant_servers
     return []
+
+def get_images(tenant_id=None):
+    mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
+    return mynova.images.list()
