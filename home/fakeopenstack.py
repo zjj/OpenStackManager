@@ -35,3 +35,8 @@ def get_flavors(tenant_id=None):
     mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
     return mynova.flavors.list()
 
+def create_server(name, image, flavor, tenant_id=None):
+    mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
+    return mynova.servers.create(name, image, flavor)
+    
+

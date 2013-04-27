@@ -15,3 +15,6 @@ if dbn == 'mysql':
 
 def get_servers(userid=None):
     return db.select('server', where='user=$userid',vars=locals(), order='id DESC')
+
+def add_server(user, server_name, image, flavor, public_key):
+    return db.insert('server',**locals())

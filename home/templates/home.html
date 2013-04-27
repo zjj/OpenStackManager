@@ -60,7 +60,7 @@ $if len(ctx.running_servers) != 0:
     <input name="server_name" type="text" placeholder="Type a server name…">
 </td>
 <td>
-    <select name="image_name">
+    <select name="image_id">
     $for image in ctx.images_dict:
         <option value='$image'> $ctx.images_dict[image] </option>
     </select>
@@ -104,8 +104,8 @@ $if len(ctx.servers) != 0:
     $for s in ctx.servers:
         <tr>
             <td>$s.server_name</td>
-            <td>$s.image</td>
-            <td>$s.flavor</td>
+            <td>$ctx.images_dict[s.image]</td>
+            <td>$ctx.flavors_dict[s.flavor]</td>
         </tr>
     </table>
     </fieldset>

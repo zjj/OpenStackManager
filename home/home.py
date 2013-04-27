@@ -1,6 +1,6 @@
 import os
 import web
-from model import get_servers
+from model import get_servers, add_server
 from auth import get_username
 from web.utils import Storage
 from fakeopenstack import * 
@@ -46,10 +46,14 @@ class Home:
     
     @csrf_protected
     def POST(self):
+        userid = web.ctx.session.get('userid',-1)
         request = web.input()
-        for r in request:
-            pass    #action
-        #raise  web.seeother('')
+        public_key = request.public_key
+        image_id = request.image_id
+        flavor = request.flavor
+        server_name = request.server_name
+        add_server(userid, server_name, image_id, flavor, public_key)        
+        #create_server(server_name, image_id, flavor)
         return request
 
 home_app = web.application(urls, locals(), autoreload=True)
