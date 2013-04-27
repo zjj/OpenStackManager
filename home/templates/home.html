@@ -54,7 +54,6 @@ $if len(ctx.running_servers) != 0:
     <th>server name</th>
     <th>image</th>
     <th>flavor</th>
-    <th>ssh key</th>
 </tr>
 <tr>
 <td>
@@ -72,11 +71,22 @@ $if len(ctx.running_servers) != 0:
         <option value='$flavor'> $ctx.flavors_dict[flavor] </option>
     </select></p>
 </td>
+</tr>
+<tr>
+    <th>ssh key</th>
+    <th></th>
+    <th></th>
+</tr>
+<tr>
 <td>
     <textarea name="public_key" rows="3"></textarea>
 </td>
 <td>
+     &nbsp;<p>
+     &nbsp;<p>
     <button class="btn btn-small btn-primary" type="submit">Apply</button>
+</td>
+<td>
 </td>
 </tr>
 </table>
