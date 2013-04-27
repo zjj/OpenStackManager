@@ -18,21 +18,21 @@ def get_tenant_id(tenant_name=None):
             return my_tenant[0].id
     return None
 
-def get_tenant_servers(tenant_id=None):
-    mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
+def get_tenant_servers(tenant_name=None):
+    mynova = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     search_opts = {'all_tenants':True}
     servers = mynova.servers.list(search_opts=search_opts)
     if len(servers) != 0:
-        tenant_servers = [x for x in servers if x.tenant_id == tenant_id]
+        tenant_servers = [x for x in servers if x.tenant_id == get_tenant_id(tenant_name)]
         return tenant_servers
     return []
 
-def get_images(tenant_id=None):
-    mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
+def get_images(tenant_name=None):
+    mynova = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return mynova.images.list()
 
-def get_flavors(tenant_id=None):
-    mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
+def get_flavors(tenant_name=None):
+    mynova = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return mynova.flavors.list()
 
 def create_server(name, image, flavor, tenant_id=None):

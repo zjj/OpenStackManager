@@ -34,12 +34,12 @@ class Home:
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
-        tenant_id = get_tenant_id(tenant_name=username)
+        tenant_name = username
         servers = get_servers(userid).list()
-        running_servers = get_tenant_servers(tenant_id)
-        images = get_images(tenant_id)
+        running_servers = get_tenant_servers(tenant_name)
+        images = get_images(tenant_name)
         images_dict = dict([(i.id, i.name) for i in images])
-        flavors = get_flavors()
+        flavors = get_flavors(tenant_name)
         flavors_dict = dict([(f.id,{'vcpus':f.vcpus,'ram':f.ram,'disk':f.disk}) for f in flavors])
         ctx = Storage(locals())
         return render.home(ctx)
