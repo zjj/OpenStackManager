@@ -62,18 +62,14 @@ $if len(ctx.running_servers) != 0:
 </td>
 <td>
     <select name="image_name">
-        <option>ubuntu </option>
-        <option>redhat</option>
-        <option>debian</option>
-        <option>test</option>
+    $for image in ctx.images_dict:
+        <option value='$image'> $ctx.images_dict[image] </option>
     </select>
 </td>
 <td>
     <select name="flavor">
-        <option>1G... </option>
-        <option>2G... </option>
-        <option>3G... </option>
-        <option>4G... </option>
+    $for flavor in ctx.flavors_dict:
+        <option value='$flavor'> $ctx.flavors_dict[flavor] </option>
     </select></p>
 </td>
 <td>
