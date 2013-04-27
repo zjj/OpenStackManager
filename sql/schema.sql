@@ -19,11 +19,9 @@ CREATE TABLE server(
     image       VARCHAR(128),
     flavor      VARCHAR(128),
     public_key  VARCHAR(128),
-    floating_ip VARCHAR(128),
-    state       VARCHAR(128)
 );
 
-INSERT INTO server (user,server_name,image,flavor,public_key,floating_ip,state) values (1,'jj','image_idasdf','flavorasf','eeeeewerwerwer','172.16.2.177','ok');
+INSERT INTO server (user, server_name, image, flavor, public_key) values (1,'server_jj','image_idasdf','flavorasf','eeeeewerwerwer');
 
 CREATE TABLE wiki(
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
