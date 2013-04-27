@@ -30,3 +30,8 @@ def get_tenant_servers(tenant_id=None):
 def get_images(tenant_id=None):
     mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
     return mynova.images.list()
+
+def get_flavors(tenant_id=None):
+    mynova = nova_client.Client(username, password, tenant_id, auth_url, service_type="compute")
+    return mynova.flavors.list()
+
