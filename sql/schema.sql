@@ -21,8 +21,6 @@ CREATE TABLE server(
     public_key  VARCHAR(128),
 );
 
-INSERT INTO server (user, server_name, image, flavor, public_key) values (1,'server_jj','image_idasdf','flavorasf','eeeeewerwerwer');
-
 CREATE TABLE wiki(
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     ctx         TEXT
