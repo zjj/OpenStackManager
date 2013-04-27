@@ -35,11 +35,12 @@ class Home:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
         tenant_id = get_tenant_id(tenant_name=username)
-        print tenant_id
         servers = get_servers(userid).list()
         running_servers = get_tenant_servers(tenant_id)
         images = get_images(tenant_id)
         images_dict = dict([(i.id, i.name) for i in images])
+        flavors = get_flavors()
+        flavors_dict = dict([(f.id,{'vcpus':f.vcpus,'ram':f.ram,'disk':f.disk}) for f in flavors])
         ctx = Storage(locals())
         return render.home(ctx)
     

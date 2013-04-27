@@ -19,7 +19,7 @@ $if len(ctx.running_servers) != 0:
         <tr>
             <td>$s.name</td>
             <td>$ctx.images_dict[s.image['id']]</td>
-            <td>$s.flavor['id']</td>
+            <td>$ctx.flavors_dict[s.flavor['id']]</td>
             <td>
                 $for address in s.addresses['private']:
                     $address['addr']    

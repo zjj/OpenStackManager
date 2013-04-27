@@ -7,9 +7,10 @@ keystone_config.read('settings.conf')
 auth_url = keystone_config.get('keystone','auth_url')
 username = keystone_config.get('keystone','username')
 password = keystone_config.get('keystone','password')
-mykeystone = keystone_client.Client(username=username, password=password, auth_url=auth_url)
 
 def get_tenant_id(tenant_name=None):
+    mykeystone = keystone_client.Client(username=username,
+                     password=password, auth_url=auth_url)
     tenants = mykeystone.tenants.list()
     if len(tenants) != 0:
         my_tenant = [x for x in tenants if x.name==tenant_name]
