@@ -10,7 +10,7 @@ urls = (
         "", "Login",
         "/login", "Login",
         "/logout", "Logout",
-        "/register", "Register",
+        "/signup", "Signup",
 )
 
 render = web.template.render('%s/templates/'%(mdir))
@@ -47,12 +47,12 @@ class Logout:
         web.ctx.session.kill()
         raise web.seeother("/index",absolute=True)
 
-class Register:
+class Signup:
     def GET(self):
         session = web.ctx.session
         if session.get('loggedin',0) == 1:
             raise web.seeother("/home", absolute=True)
-        return render.register()
+        return render.signup()
 
     def POST(self):
         session = web.ctx.session
