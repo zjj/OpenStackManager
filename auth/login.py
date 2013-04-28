@@ -3,6 +3,7 @@ import sys
 import web
 from web import form
 from auth import authenticate, get_userid, User
+from fakeopenstack import *
 
 mdir = os.path.dirname(__file__)
 
@@ -64,6 +65,9 @@ class Signup:
         if userid == -1:
             newuser = User(password=password, username=username, email=email)
             newuser.save()
+            newtenant = create_tenant(username)
+            newtenant.add_user(get_keystoneuser_id(os_tenant_name), 
+                                get_role_id('admin'))
         else:
             return "user exists"
         raise web.seeother("/login")
