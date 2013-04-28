@@ -6,7 +6,8 @@ from web.utils import Storage
 from fakeopenstack import * 
 
 urls = (
-    '','Home',
+    '', 'Home',
+    '/ssh', 'Ssh',
 )
 
 def csrf_token():
@@ -53,5 +54,47 @@ class Home:
         server_name = request.server_name
         add_server(userid, server_name, image_id, flavor)        
         return request
+
+class Ssh:
+    def GET(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother('/index', absolute=True)
+        username = get_username(userid=userid)
+        tenant_name = username
+        ctx = Storage(locals())
+        return render.ssh(ctx)
+    
+    @csrf_protected
+    def POST(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother('/index', absolute=True)
+        username = get_username(userid=userid)
+
+        request = web.input()
+        ssh_key = request.ssh_key
+        if ssh_key != '':
+            if not (ssh_key.startswith("ssh-rsa") or ssh_key.startswith("ssh-dss")):
+                return "SSH INPUT ERROR"
+            else:
+                import_pubkey(username,pub_key=ssh_key)
+                raise web.seeother('/home', absolute=True)
+        else:
+            npk = import_pubkey(username,pub_key=None)
+            private_key = npk.private_key
+        
+        ctx = Storage(locals())
+        return render.private_key(ctx)
+              
+            
+         
+        
+        
+            
+         
+            
+
+
 
 home_app = web.application(urls, locals(), autoreload=True)

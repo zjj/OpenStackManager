@@ -1,0 +1,12 @@
+$def with(ctx)
+
+$var username: $ctx.username
+$ csrf_token = csrf()
+
+<fieldset>
+<legend>SSH Private Key<span class="label label-info">keep this safe :)</span> </legend>
+<pre>
+$:ctx.private_key
+</pre>
+</fieldset>
+
