@@ -17,8 +17,7 @@ CREATE TABLE server(
     user        NOT NULL REFERENCES user(id),
     server_name VARCHAR(128),
     image       VARCHAR(128),
-    flavor      VARCHAR(128),
-    public_key  VARCHAR(128)
+    flavor      VARCHAR(128)
 );
 
 CREATE TABLE wiki(

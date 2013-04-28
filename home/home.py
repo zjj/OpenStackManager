@@ -48,12 +48,10 @@ class Home:
     def POST(self):
         userid = web.ctx.session.get('userid',-1)
         request = web.input()
-        public_key = request.public_key
         image_id = request.image_id
         flavor = request.flavor
         server_name = request.server_name
-        add_server(userid, server_name, image_id, flavor, public_key)        
-        #create_server(server_name, image_id, flavor)
+        add_server(userid, server_name, image_id, flavor)        
         return request
 
 home_app = web.application(urls, locals(), autoreload=True)
