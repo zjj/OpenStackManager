@@ -40,7 +40,7 @@ class Home:
         images = get_images(tenant_name)
         images_dict = dict([(i.id, i.name) for i in images])
         flavors = get_flavors(tenant_name)
-        flavors_dict = dict([(f.id,{'vcpus':f.vcpus,'ram':f.ram,'disk':f.disk}) for f in flavors])
+        flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
         ctx = Storage(locals())
         return render.home(ctx)
     
