@@ -1,35 +1,46 @@
+import os
 import web
-from web import form
-#
-#this is just for exercising ~~
-#
-web.config.debug = True
+from web.utils import Storage
+from model import * 
+from auth import get_username
+from fakeopenstack import *
 
-urls = ("/admin", "admin",
-        "/apply","apply",
+urls = (
+        "", "Admin",
 )
-app = web.application(urls, globals())
 
-db = web.database(dbn='sqlite', db='database/jj')
-store = web.session.DBStore(db, 'sessions')
-session = web.session.Session(app, store, initializer={'count': 0})
-render = web.template.render('templates/')
+def csrf_token():
+    if not web.ctx.session.has_key('csrf_token'):
+        from uuid import uuid4
+        web.ctx.session.csrf_token=uuid4().hex
+    return web.ctx.session.csrf_token
 
-class admin:
+def csrf_protected(f):
+    def decorated(*args,**kwargs):
+        inp = web.input()
+        if not (inp.has_key('csrf_token') and inp.csrf_token==web.ctx.session.pop('csrf_token',None)):
+            raise web.seeother("")
+        return f(*args,**kwargs)
+    return decorated
+
+t_globals = {'csrf':csrf_token}
+
+
+mdir = os.path.dirname(__file__)
+render = web.template.render('%s/templates/'%(mdir), base='base', globals=t_globals)
+
+class Admin:
     def GET(self):
-        users = db.select('user')
-        dir(users)
-        return render.users(users)
+        userid = web.ctx.session.get('userid', -1)
+        if userid == -1:
+            raise web.seeother("/index", absolute=True)
+        username = get_username(userid=userid)
+        all_pending_servers = get_all_pending_servers().list()
+        images = get_images(os_tenant_name)
+        images_dict = dict([(i.id, i.name) for i in images])
+        flavors = get_flavors(os_tenant_name)
+        flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
+        ctx = Storage(locals()) 
+        return render.admin(ctx)
 
-class apply:
-    def GET(self):
-        server = form.Form(
-            form.Dropdown('os', [('debian', 'Debian'), ('redhat', 'RedHat')]),
-            form.Dropdown('cpu', [('1', '1 core'), ('2', '2 cores')]),
-            form.Dropdown('flavor', [('1', '512M 1G'),('1024', '1G 1G'), ('2048', '2G 1G')]),
-        )
-        server = server()
-        print str(session.count)
-        return render.apply(server)
-
-application = app.wsgifunc()
+admin_app = web.application(urls, locals(), autoreload=True)

@@ -1,0 +1,24 @@
+$def with(ctx)
+
+$var username: $ctx.username
+
+$ csrf_token = csrf()
+
+
+$if len(ctx.all_pending_servers) != 0:
+    <p>
+    <fieldset>
+    <legend>All pending servers <span class="label label-info">these servers are pending</span> </legend>
+    <table class='table'>
+        <tr>
+            <th>server name</th><th>image</th><th>flavor</th>
+        </tr>
+    $for s in ctx.all_pending_servers:
+        <tr>
+            <td>$s.server_name</td>
+            <td>$ctx.images_dict[s.image]</td>
+            <td>$ctx.flavors_dict[s.flavor]</td>
+        </tr>
+    </table>
+    </fieldset>
+
