@@ -1,7 +1,7 @@
 import os
 import web
 from model import get_servers, add_server
-from auth import get_username
+from auth.auth import get_username, get_userid
 from web.utils import Storage
 from fakeopenstack import * 
 
@@ -87,14 +87,4 @@ class Ssh:
         ctx = Storage(locals())
         return render.private_key(ctx)
               
-            
-         
-        
-        
-            
-         
-            
-
-
-
 home_app = web.application(urls, locals(), autoreload=True)
