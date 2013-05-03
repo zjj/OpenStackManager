@@ -6,19 +6,37 @@ $ csrf_token = csrf()
 
 
 $if len(ctx.all_pending_servers) != 0:
-    <p>
+    <form action="" method=POST>
+    <input type=hidden name=csrf_token value="$csrf_token">
     <fieldset>
     <legend>All pending servers <span class="label label-info">these servers are pending</span> </legend>
     <table class='table'>
         <tr>
-            <th>server name</th><th>image</th><th>flavor</th>
+            <th>user</th><th>server name</th><th>image</th><th>flavor</th><th>action</th>
         </tr>
     $for s in ctx.all_pending_servers:
         <tr>
+            <td>$get_username(s.user)</td>
             <td>$s.server_name</td>
             <td>$ctx.images_dict[s.image]</td>
             <td>$ctx.flavors_dict[s.flavor]</td>
+            <td>
+                <select name="$s.id">
+                    <option></option>
+                    <option>Accept</option>
+                    <option>Reject</option>
+                </select>
+            </td>
         </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class="btn btn-small btn-primary" type="submit">Submit</button>
+    </td>
     </table>
     </fieldset>
+    </form>
 

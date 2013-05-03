@@ -2,8 +2,8 @@ import os
 import web
 from web.utils import Storage
 from model import * 
-from auth import get_username
-from fakeopenstack import *
+from auth import get_username, get_userid
+from home.fakeopenstack import *
 
 urls = (
         "", "Admin",
@@ -23,7 +23,7 @@ def csrf_protected(f):
         return f(*args,**kwargs)
     return decorated
 
-t_globals = {'csrf':csrf_token}
+t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid}
 
 
 mdir = os.path.dirname(__file__)
