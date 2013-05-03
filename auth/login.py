@@ -3,7 +3,7 @@ import sys
 import web
 from web import form
 from auth import authenticate, get_userid, User
-from fakeopenstack import *
+from home.fakeopenstack import *
 
 mdir = os.path.dirname(__file__)
 
@@ -72,4 +72,4 @@ class Signup:
             return "user exists"
         raise web.seeother("/login")
 
-app = web.application(urls, globals(), autoreload=True)
+auth_app = web.application(urls, globals(), autoreload=True)

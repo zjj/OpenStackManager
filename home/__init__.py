@@ -1,1 +1,2 @@
-from home import home_app
+from home import *
+import fakeopenstack

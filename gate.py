@@ -2,6 +2,7 @@ import web
 from auth import auth_app
 from home import home_app
 from index import index_app
+from admin import admin_app
 from model import db 
 
 web.config.debug = False
@@ -10,6 +11,7 @@ urls = (
     '/auth', auth_app,
     '/home', home_app,
     '/index', index_app,
+    '/admin', admin_app,
     '/', index_app,
     )
 
