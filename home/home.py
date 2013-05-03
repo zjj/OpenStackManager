@@ -1,7 +1,7 @@
 import os
 import web
 from model import get_servers, add_server
-from auth.auth import get_username, get_userid
+from auth import get_username, get_userid
 from web.utils import Storage
 from fakeopenstack import * 
 
