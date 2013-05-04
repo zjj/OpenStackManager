@@ -25,7 +25,6 @@ def csrf_protected(f):
 
 t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid}
 
-
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base', globals=t_globals)
 

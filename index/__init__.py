@@ -1,1 +1,1 @@
-from index import index_app
+from view import index_app

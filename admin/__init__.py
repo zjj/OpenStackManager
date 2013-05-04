@@ -1,1 +1,1 @@
-from admin import admin_app
+from view import admin_app
