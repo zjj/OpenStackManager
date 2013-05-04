@@ -35,10 +35,12 @@ class Admin:
             raise web.seeother("/index", absolute=True)
         username = get_username(userid=userid)
         all_pending_servers = get_all_pending_servers().list()
+        all_running_servers = get_tenant_servers(tenant_name=os_tenant_name)
         images = get_images(os_tenant_name)
         images_dict = dict([(i.id, i.name) for i in images])
         flavors = get_flavors(os_tenant_name)
         flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
+        tenants_dict = dict([(t.id, t.name) for t in get_all_tenants()]) 
         ctx = Storage(locals()) 
         return render.admin(ctx)
 

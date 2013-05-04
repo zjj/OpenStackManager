@@ -39,4 +39,38 @@ $if len(ctx.all_pending_servers) != 0:
     </table>
     </fieldset>
     </form>
+<p>
+$if len(ctx.all_running_servers) != 0:
+    <form action="" method=POST>
+    <input type=hidden name=csrf_token value="$csrf_token">
+    <fieldset>
+    <legend>All running servers <span class="label label-info">these servers have been accepted</span> </legend>
+    <table class='table'>
+        <tr>
+            <th>user</th><th>server name</th><th>image</th><th>flavor</th><th>action</th>
+        </tr>
+    $for s in ctx.all_running_servers:
+        <tr>
+            <td>$ctx.tenants_dict[s.tenant_id]</td>
+            <td>$s.name</td>
+            <td>$ctx.images_dict[s.image['id']]</td>
+            <td>$ctx.flavors_dict[s.flavor['id']]</td>
+            <td>
+                <select name="$s.id">
+                    <option></option>
+                    <option>delete</option>
+                </select>
+            </td>
+        </tr>
+    <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class="btn btn-small btn-primary" type="submit">Submit</button>
+    </td>
+    </table>
+    </fieldset>
+    </form>
 
