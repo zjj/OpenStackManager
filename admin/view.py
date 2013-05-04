@@ -3,7 +3,7 @@ import web
 from web.utils import Storage
 from model import * 
 from auth import get_username, get_userid
-from home.fakeopenstack import *
+from api.fakeopenstack import *
 
 urls = (
         "", "Admin",
