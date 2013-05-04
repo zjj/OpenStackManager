@@ -82,6 +82,14 @@ def delete_servers(server_id=[]):
         if s.id in server_id:
             s.delete()
 
+def reboot_servers(server_id=[]):
+    nc = nova_client.Client(username, password, os_tenant_name, auth_url, service_type="compute")
+    search_opts = {'all_tenants':True}
+    servers = nc.servers.list(search_opts=search_opts)
+    for s in servers:
+        if s.id in server_id:
+            s.reboot()
+
 def create_tenant(name):
     kc = keystone_client.Client(username=username,
                      password=password, tenant_name=os_tenant_name,auth_url=auth_url)

@@ -25,9 +25,8 @@ $if len(ctx.running_servers) != 0:
             <td>
                 <select name="$s.id">
                     <option> </option>
-                    <option>reboot</option>
-                    <option>stop</option>
-                    <option>delete</option>
+                    <option value='reboot'>reboot</option>
+                    <option value='delete'>delete</option>
                 </select>
             </td>
         </tr>
@@ -45,7 +44,7 @@ $if len(ctx.running_servers) != 0:
     </form>
 
 <p>
-<form action="" method=POST>
+<form action="/home/apply" method=POST>
 <input type=hidden name=csrf_token value="$csrf_token">
 <fieldset>
 <legend>Apply a new server  <span class="label label-info">you could apply a new server here</span> </legend>

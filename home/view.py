@@ -8,6 +8,7 @@ from api.fakeopenstack import *
 urls = (
     '', 'Home',
     '/ssh', 'Ssh',
+    '/apply', 'Apply',
 )
 
 def csrf_token():
@@ -44,7 +45,27 @@ class Home:
         flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
         ctx = Storage(locals())
         return render.home(ctx)
-    
+
+    @csrf_protected
+    def POST(self):
+        to_delete_servers=[]
+        to_reboot_servers=[]
+        request = web.input()
+        try:
+            del request['csrf_token']
+        except:
+            pass 
+        for i in request:
+            if request[i] == u'delete':
+                to_delete_servers.append(i)
+            elif request[i] == u'reboot':
+                to_reboot_servers.append(i)
+        reboot_servers(to_reboot_servers)
+        delete_servers(to_delete_servers)
+        raise web.seeother("/home", absolute=True)
+        
+ 
+class Apply: 
     @csrf_protected
     def POST(self):
         userid = web.ctx.session.get('userid',-1)
@@ -53,7 +74,7 @@ class Home:
         flavor = request.flavor
         server_name = request.server_name
         add_server(userid, server_name, image_id, flavor)        
-        return request
+        raise web.seeother("/home", absolute=True)
 
 class Ssh:
     def GET(self):
