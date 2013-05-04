@@ -19,6 +19,20 @@ def get_tenant_id(tenant_name=None):
             return my_tenant[0].id
     return None
 
+def get_tenant_name(tenant_id):
+    kc = keystone_client.Client(username=username,
+                     password=password, tenant_name=os_tenant_name, auth_url=auth_url)
+    tenants = kc.tenants.list()
+    for tenant in tenants:
+        if tenant.id == tenant_id:
+            return tenant.name
+    return None
+
+def get_all_tenants():
+    kc = keystone_client.Client(username=username,
+                     password=password, tenant_name=os_tenant_name, auth_url=auth_url)
+    return kc.tenants.list()
+
 def get_role_id(role_name=None):
     kc = keystone_client.Client(username=username,
                      password=password, tenant_name=os_tenant_name, auth_url=auth_url)
@@ -39,7 +53,10 @@ def get_keystoneuser_id(username=None):
 
 def get_tenant_servers(tenant_name=None):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
-    search_opts = {'tenant_id':get_tenant_id(tenant_name)}
+    if tenant_name == os_tenant_name: 
+        search_opts = {'all_tenants':True}
+    else:
+        search_opts = {'tenant_id':get_tenant_id(tenant_name)}
     servers = nc.servers.list(search_opts=search_opts)
     return servers
 
