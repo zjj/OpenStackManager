@@ -6,7 +6,7 @@ $ csrf_token = csrf()
 
 
 $if len(ctx.all_pending_servers) != 0:
-    <form action="" method=POST>
+    <form action="/admin/check" method=POST>
     <input type=hidden name=csrf_token value="$csrf_token">
     <fieldset>
     <legend>All pending servers <span class="label label-info">these servers are pending</span> </legend>
@@ -23,8 +23,8 @@ $if len(ctx.all_pending_servers) != 0:
             <td>
                 <select name="$s.id">
                     <option></option>
-                    <option>Accept</option>
-                    <option>Reject</option>
+                    <option value="accept">Accept</option>
+                    <option value="reject">Reject</option>
                 </select>
             </td>
         </tr>
@@ -41,7 +41,7 @@ $if len(ctx.all_pending_servers) != 0:
     </form>
 <p>
 $if len(ctx.all_running_servers) != 0:
-    <form action="" method=POST>
+    <form action="/admin/delete" method=POST>
     <input type=hidden name=csrf_token value="$csrf_token">
     <fieldset>
     <legend>All running servers <span class="label label-info">these servers have been accepted</span> </legend>
@@ -58,7 +58,7 @@ $if len(ctx.all_running_servers) != 0:
             <td>
                 <select name="$s.id">
                     <option></option>
-                    <option>delete</option>
+                    <option value="delete">delete</option>
                 </select>
             </td>
         </tr>

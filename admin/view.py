@@ -7,6 +7,8 @@ from api.fakeopenstack import *
 
 urls = (
         "", "Admin",
+        "/check", "Check",
+        "/delete", "Delete",
 )
 
 def csrf_token():
@@ -43,5 +45,44 @@ class Admin:
         tenants_dict = dict([(t.id, t.name) for t in get_all_tenants()]) 
         ctx = Storage(locals()) 
         return render.admin(ctx)
+    
+    def POST(self):
+        pass
+
+class Check:
+    @csrf_protected
+    def POST(self): 
+        request = web.input()
+        try:
+            del request['csrf_token']
+        except:
+            pass
+        for i in request:
+            if request[i] == u'reject':
+                delete_pending_server(i)
+            elif request[i] == u'accept':
+                ns = get_pending_server_info(i).list()[0]
+                create_server(ns.server_name, ns.image,  ns.flavor,  get_username(ns.user))
+                delete_pending_server(i)
+
+        raise web.seeother("/admin", absolute=True)
+
+class Delete:
+    @csrf_protected
+    def POST(self): 
+        servers_id = []
+        request = web.input()
+        try:
+            del request['csrf_token']
+        except:
+            pass
+        for i in request:
+            if request[i] == u'delete':
+                servers_id.append(i)
+        #FIXME
+        #here we need a synchronous,or the admin page would still show the deleted servers
+        #I have to refresh the page
+        delete_servers(servers_id) 
+        raise web.seeother("/admin", absolute=True)
 
 admin_app = web.application(urls, locals(), autoreload=True)

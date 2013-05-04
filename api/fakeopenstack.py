@@ -68,18 +68,27 @@ def get_flavors(tenant_name=None):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.flavors.list()
 
-#TODO
+#TODO 
+#x = create_server('dsdddd', '30de55f0-aad5-4ec2-8f67-be8e510e02fd',  1,  'jj')
 def create_server(name, image, flavor, tenant_name):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.servers.create(name, image, flavor)
     
+def delete_servers(server_id=[]):
+    nc = nova_client.Client(username, password, os_tenant_name, auth_url, service_type="compute")
+    search_opts = {'all_tenants':True}
+    servers = nc.servers.list(search_opts=search_opts)
+    for s in servers:
+        if s.id in server_id:
+            s.delete()
+
 def create_tenant(name):
     kc = keystone_client.Client(username=username,
                      password=password, tenant_name=os_tenant_name,auth_url=auth_url)
     newtenant = kc.tenants.create(name)
     return newtenant
 
-
+    
 # NEED TO BE IMPROVED ?
 # Here tenant_name is going to be the keypair name,
 # one tenant <--> one keypair for temporarily.
