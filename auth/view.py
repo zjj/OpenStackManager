@@ -59,10 +59,10 @@ class Signup:
 
     def POST(self):
         session = web.ctx.session
-        input = web.input()
-        username = input.username
-        password = input.password
-        email = input.email
+        request = web.input()
+        username = request.username
+        password = request.password
+        email = request.email
         userid = get_userid(username)
         if userid == -1:
             newuser = User(password=password, username=username, email=email)
@@ -74,7 +74,8 @@ class Signup:
             return "user exists"
         raise web.seeother("/login")
 
-render_pass = web.template.render('%s/templates/'%(mdir), base="base")
+render_fluid = web.template.render('%s/templates/'%(mdir), base="fluid")
+
 class Passwd:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
@@ -83,7 +84,7 @@ class Passwd:
         else:
             username = get_username(userid=userid)
             ctx = Storage(locals())
-            return render_pass.change_passwd(ctx)
+            return render_fluid.change_passwd(ctx)
 
     def POST(self):
         if web.ctx.session.get('loggedin',0) == 1:
@@ -92,10 +93,21 @@ class Passwd:
         request = web.input()
         old_password = request.old_password
         new_password = request.new_password
-        user = User(username=username, password=old_password)
-        if user.is_authenticated() == True:
-            user.set_passwd(new_password)
-            user.save(update=True)
-        return request
-         
+        new_password_confirm = request.new_password_confirm
+        if new_password != new_password_confirm:
+            msg = "Password doesn't match the confirmation"
+            error = True
+        else:
+            user = User(username=username, password=old_password)
+            if user.is_authenticated() == True:
+                user.set_passwd(new_password)
+                user.save(update=True)
+                msg = "PassWord Changed!"
+                error = False
+            else:
+                msg = "Old PassWord Error!"
+                error = True
+        ctx = Storage(locals())
+        return render_fluid.msg(ctx)
+
 auth_app = web.application(urls, globals(), autoreload=True)
