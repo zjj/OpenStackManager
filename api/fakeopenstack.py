@@ -72,7 +72,7 @@ def get_flavors(tenant_name=None):
 #x = create_server('dsdddd', '30de55f0-aad5-4ec2-8f67-be8e510e02fd',  1,  'jj')
 def create_server(name, image, flavor, tenant_name):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
-    return nc.servers.create(name, image, flavor)
+    return nc.servers.create(name, image, flavor, key_name=tenant_name)
     
 def delete_servers(server_id=[]):
     nc = nova_client.Client(username, password, os_tenant_name, auth_url, service_type="compute")
