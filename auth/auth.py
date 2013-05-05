@@ -16,13 +16,14 @@ if dbn == 'mysql':
     db = web.database(dbn=dbn, db=database, user=user, pw=pw)
 
 class User:
-    def __init__(self,  password=None, username=None, **more):
-        self.username = username     
+    def __init__(self, username=None, password=None, **opts):
+        self.username = username
+        self.raw_passwd = password
         self.salt = self._generate_salt()
         self.password = self._generate_passwd(self.salt, password)
         self.encrypt_passwd = self.salt + '$' + self.password
-        self.more = more
-        self.__dict__.update(more)
+        self.opts = opts
+        self.__dict__.update(opts)
 
     def _generate_salt(self):
         salt_set = ('abcdefghijklmnopqrstuvwxyz'
@@ -35,13 +36,18 @@ class User:
         return hashlib.sha1(salt+passwd).hexdigest()
 
     def set_passwd(self, passwd):
-        pass    
+        self.salt = self._generate_salt()
+        self.encrypt_passwd = self.salt + '$' + self._generate_passwd(self.salt, passwd)
 
-    def save(self):
-        db.insert(table, username=self.username, password=self.encrypt_passwd, **self.more)
+    def save(self,update=False):
+        if update == False:
+            db.insert(table, username=self.username, password=self.encrypt_passwd, **self.opts)
+        else:
+            db.update(table, where="username=$username", vars={'username':self.username}, password=self.encrypt_passwd, **self.opts)    
 
     def is_authenticated(self):
-        pass
+        return authenticate(passwd=self.raw_passwd, username=self.username)
+
 
 def authenticate(passwd=None, username=None):
     user = db.select(table,what='password', where='username=$username',vars={'username':username})
