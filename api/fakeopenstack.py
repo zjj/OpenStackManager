@@ -105,3 +105,19 @@ def import_pubkey(name, pub_key=None):
     nc = nova_client.Client(username, password, name, auth_url, service_type="compute")
     newkeypair = nc.keypairs.create(name, pub_key)
     return newkeypair 
+
+def fingerprint(name):
+    nc = nova_client.Client(username, password, name, auth_url, service_type="compute")
+    keypairs = nc.keypairs.list()
+    for k in keypairs:
+        if k.name == name:
+            return k.fingerprint
+    
+
+def delete_pubkey(name):
+    nc = nova_client.Client(username, password, name, auth_url, service_type="compute")
+    keypairs = nc.keypairs.list()
+    for k in keypairs:
+        if k.name == name:
+            k.delete()
+            break
