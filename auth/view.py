@@ -3,7 +3,7 @@ import sys
 import web
 from web import form
 from web.utils import Storage
-from auth import authenticate, get_username, get_userid, User
+from auth import authenticate, get_username, get_userid, get_email, User, email_re, update_email
 from api.fakeopenstack import *
 
 mdir = os.path.dirname(__file__)
@@ -15,6 +15,7 @@ urls = (
         "/signup", "Signup",
         "/passwd", "Passwd",
         "/ssh", "SSH",
+        "/email", "Email",
 )
 
 
@@ -172,5 +173,32 @@ class SSH:
         ctx = Storage(locals())
         return render_fluid.private_key(ctx)
 
+class Email:
+    def GET(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother('/index', absolute=True)
+        username = get_username(userid=userid)
+        email = get_email(userid=userid) 
+        ctx = Storage(locals())
+        return render_fluid.email(ctx)
+    
+    def POST(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother('/index', absolute=True)
+        username = get_username(userid=userid)
+        request = web.input()
+        email = request.email
+        if email_re.match(email):
+            update_email(userid, email)
+            email = get_email(userid=userid) 
+            ctx = Storage(locals())
+            return render_fluid.email(ctx)
+        else:
+            msg = "Email not valid"
+            error = True
+            ctx = Storage(locals())
+            return render_fluid.msg(ctx)
 
 auth_app = web.application(urls, globals(), autoreload=True)

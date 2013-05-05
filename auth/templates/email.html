@@ -1,0 +1,23 @@
+$def with(ctx)
+
+$var username: $ctx.username
+$ csrf_token = csrf()
+
+$if ctx.email:
+    <fieldset>
+        <div class="alert alert-info">
+            $ctx.email
+        </div>
+    </fieldset><p>
+
+<form action="" method=POST>
+<fieldset>
+<legend>Email<span class="label label-important">
+    <strong>Attention:</strong>
+    Temporarily,one user could have only one email,if you upload a new one ,the old would be flushed.</span> </legend>
+<label>email</label>
+<input name="email" type="text" class="input-block-level" placeholder="example@foo.com">
+<button class="btn btn-small btn-primary" type="submit">Update Email</button>
+</fieldset>
+</form>
+
