@@ -14,7 +14,25 @@ urls = (
         "/logout", "Logout",
         "/signup", "Signup",
         "/passwd", "Passwd",
+        "/ssh", "SSH",
 )
+
+
+def csrf_token():
+    if not web.ctx.session.has_key('csrf_token'):
+        from uuid import uuid4
+        web.ctx.session.csrf_token=uuid4().hex
+    return web.ctx.session.csrf_token
+
+def csrf_protected(f):
+    def decorated(*args,**kwargs):
+        inp = web.input()
+        if not (inp.has_key('csrf_token') and inp.csrf_token==web.ctx.session.pop('csrf_token',None)):
+            raise web.seeother("")
+        return f(*args,**kwargs)
+    return decorated
+
+t_globals = {'csrf':csrf_token}
 
 render = web.template.render('%s/templates/'%(mdir))
 
@@ -74,7 +92,7 @@ class Signup:
             return "user exists"
         raise web.seeother("/login")
 
-render_fluid = web.template.render('%s/templates/'%(mdir), base="fluid")
+render_fluid = web.template.render('%s/templates/'%(mdir), base="fluid", globals=t_globals)
 
 class Passwd:
     def GET(self):
@@ -109,5 +127,50 @@ class Passwd:
                 error = True
         ctx = Storage(locals())
         return render_fluid.msg(ctx)
+
+class SSH:
+    def GET(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother('/index', absolute=True)
+        username = get_username(userid=userid)
+        tenant_name = username
+        keypair = fingerprint(tenant_name)
+        ctx = Storage(locals())
+        return render_fluid.ssh(ctx)
+    
+    @csrf_protected
+    def POST(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother('/index', absolute=True)
+        username = get_username(userid=userid)
+
+        request = web.input()
+        ssh_key = request.ssh_key
+        if ssh_key != '':
+            if not (ssh_key.startswith("ssh-rsa") or ssh_key.startswith("ssh-dss")):
+                msg = "SSH INPUT ERROR"
+                error = True
+                ctx = Storage(locals())
+                return render_fluid.msg(ctx) 
+            else:
+                try:
+                    delete_pubkey(username)
+                except:
+                    pass
+                import_pubkey(username,pub_key=ssh_key)
+                raise web.seeother('')
+        else:
+            try:
+                delete_pubkey(username)
+            except:
+                pass
+            npk = import_pubkey(username,pub_key=None)
+            private_key = npk.private_key
+        
+        ctx = Storage(locals())
+        return render_fluid.private_key(ctx)
+
 
 auth_app = web.application(urls, globals(), autoreload=True)
