@@ -1,0 +1,17 @@
+$def with(ctx)
+$var username: $ctx.username
+
+<form class="form-signin" action=""  method=POST>
+<fieldset>
+<legend>Change Password</legend>
+    <label>old password</label>
+    <input name="old_password" type="password" placeholder="oldPassword">
+    <label>new password</label>
+    <input name="new_password" type="password" placeholder="newPassword">
+    <label>Password Confirm</label>
+    <input name="password_confirm" type="password" placeholder="Password confirm">
+    <label></label>
+    <button class="btn btn-large btn-primary" type="submit">UpdatePassword</button>
+</fieldset>
+</form>
+

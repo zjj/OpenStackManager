@@ -2,6 +2,7 @@ import os
 import sys
 import web
 from web import form
+from web.utils import Storage
 from auth import authenticate, get_username, get_userid, User
 from api.fakeopenstack import *
 
@@ -12,6 +13,7 @@ urls = (
         "/login", "Login",
         "/logout", "Logout",
         "/signup", "Signup",
+        "/passwd", "Passwd",
 )
 
 render = web.template.render('%s/templates/'%(mdir))
@@ -72,4 +74,28 @@ class Signup:
             return "user exists"
         raise web.seeother("/login")
 
+render_pass = web.template.render('%s/templates/'%(mdir), base="base")
+class Passwd:
+    def GET(self):
+        userid = web.ctx.session.get('userid',-1)
+        if userid == -1:
+            raise web.seeother("/login")
+        else:
+            username = get_username(userid=userid)
+            ctx = Storage(locals())
+            return render_pass.change_passwd(ctx)
+
+    def POST(self):
+        if web.ctx.session.get('loggedin',0) == 1:
+            userid = web.ctx.session.get('userid',-1)
+            username = get_username(userid)
+        request = web.input()
+        old_password = request.old_password
+        new_password = request.new_password
+        user = User(username=username, password=old_password)
+        if user.is_authenticated() == True:
+            user.set_passwd(new_password)
+            user.save(update=True)
+        return request
+         
 auth_app = web.application(urls, globals(), autoreload=True)
