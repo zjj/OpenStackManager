@@ -2,7 +2,7 @@ import os
 import web
 from web.utils import Storage
 from model import * 
-from auth import get_username, get_userid
+from auth import get_username, get_userid, is_superuser
 from api.fakeopenstack import *
 
 urls = (
@@ -33,7 +33,7 @@ render = web.template.render('%s/templates/'%(mdir), base='base', globals=t_glob
 class Admin:
     def GET(self):
         userid = web.ctx.session.get('userid', -1)
-        if userid == -1:
+        if userid == -1 or not is_superuser(userid):
             raise web.seeother("/index", absolute=True)
         username = get_username(userid=userid)
         all_pending_servers = get_all_pending_servers().list()

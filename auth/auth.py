@@ -82,6 +82,13 @@ def get_email(userid=None):
     except:
         return None
 
+def is_superuser(userid=None):
+    try:
+        return db.select(table,what='is_superuser', where='id=$userid',vars={'userid':userid})[0].is_superuser
+    except:
+        return False
+
+
 #TO BE IMPROVED, i think this should in class User
 def update_email(userid, email):
     try:
