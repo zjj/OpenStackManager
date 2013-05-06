@@ -1,4 +1,4 @@
-A CloudManager for openstack
+A Manager for OpenStack
 =======
 I am not going to re-invent the wheel(Horizon), This is a (web.py + bootstrap)
 based app for managing virtual machine for multi-user model ,some users are admins,
