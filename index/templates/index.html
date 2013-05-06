@@ -3,5 +3,6 @@ $var userid: $ctx.userid
 $var username: $ctx.username
 $ body = markdown(ctx.index_wiki)
 $if ctx.superuser == True:
-    <a class='pull-right' href="/index/edit"><span class="label label-info">Edit</span></a>
+    you are an admin,you could <a href="/admin">Manage servers</a>
+    <a class="pull-right" href="/index/edit"><span class="label label-info">Edit Index page</span></a>
 $:body
