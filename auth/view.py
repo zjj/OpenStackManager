@@ -85,7 +85,10 @@ class Signup:
         userid = get_userid(username)
         if userid == -1:
             newuser = User(password=password, username=username, email=email)
-            newuser.save()
+            try:
+                newuser.save()
+            except:
+                return "Email exists"
             newtenant = create_tenant(username)
             newtenant.add_user(get_keystoneuser_id(os_tenant_name), 
                                 get_role_id('admin'))
