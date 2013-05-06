@@ -46,7 +46,7 @@ class Login:
     def GET(self):
         session = web.ctx.session
         if session.get('loggedin',0) == 1:
-            raise web.seeother("/home", absolute=True)
+            raise web.seeother("/index", absolute=True)
         login = self.login_form()
         return render.login(login)
 
@@ -60,7 +60,7 @@ class Login:
             userid = get_userid(username)
             session.update({'loggedin':1})
             session.update({'userid':userid})
-            raise web.seeother('/home', absolute=True)
+            raise web.seeother('/index', absolute=True)
         else:
             return "username or password error"
 
@@ -73,7 +73,7 @@ class Signup:
     def GET(self):
         session = web.ctx.session
         if session.get('loggedin',0) == 1:
-            raise web.seeother("/home", absolute=True)
+            raise web.seeother("/index", absolute=True)
         return render.signup()
 
     def POST(self):

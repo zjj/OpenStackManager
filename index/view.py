@@ -20,6 +20,7 @@ class index:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
         username = get_username(userid=userid)
+        superuser = is_superuser(userid=userid)
         index_wiki = get_page()
         ctx = Storage(locals())
         return render.index(ctx)
