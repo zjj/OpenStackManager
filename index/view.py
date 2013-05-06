@@ -39,8 +39,6 @@ class Edit:
     def POST(self):
         request = web.input()
         index_wiki = request.index_wiki
-        print 100*'*'
-        print index_wiki
         update_index_page(index_wiki)
         raise web.seeother("/")
         
