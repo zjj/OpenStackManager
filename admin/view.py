@@ -3,27 +3,14 @@ import web
 from web.utils import Storage
 from model import * 
 from auth import get_username, get_userid, is_superuser
-from api.fakeopenstack import *
+from lib.fakeopenstack import *
+from lib.utils import csrf_token, csrf_protected
 
 urls = (
         "", "Admin",
         "/check", "Check",
         "/delete", "Delete",
 )
-
-def csrf_token():
-    if not web.ctx.session.has_key('csrf_token'):
-        from uuid import uuid4
-        web.ctx.session.csrf_token=uuid4().hex
-    return web.ctx.session.csrf_token
-
-def csrf_protected(f):
-    def decorated(*args,**kwargs):
-        inp = web.input()
-        if not (inp.has_key('csrf_token') and inp.csrf_token==web.ctx.session.pop('csrf_token',None)):
-            raise web.seeother("")
-        return f(*args,**kwargs)
-    return decorated
 
 t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid}
 

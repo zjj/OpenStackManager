@@ -3,7 +3,8 @@ import web
 from model import get_servers, add_server
 from auth import get_username, get_userid
 from web.utils import Storage
-from api.fakeopenstack import *
+from lib.fakeopenstack import *
+from lib.utils import csrf_token, csrf_protected
 
 urls = (
     '', 'Home',
@@ -11,24 +12,11 @@ urls = (
     '/apply', 'Apply',
 )
 
-def csrf_token():
-    if not web.ctx.session.has_key('csrf_token'):
-        from uuid import uuid4
-        web.ctx.session.csrf_token=uuid4().hex
-    return web.ctx.session.csrf_token
-
-def csrf_protected(f):
-    def decorated(*args,**kwargs):
-        inp = web.input()
-        if not (inp.has_key('csrf_token') and inp.csrf_token==web.ctx.session.pop('csrf_token',None)):
-            raise web.seeother("")
-        return f(*args,**kwargs)
-    return decorated
-
 t_globals = {'csrf':csrf_token}
 
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base',globals=t_globals)
+
 
 class Home:
     def GET(self):
