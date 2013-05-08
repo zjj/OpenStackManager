@@ -1,0 +1,11 @@
+$def with(ctx)
+$var username: $ctx.username
+$if ctx.error == False:
+    <div class="alert alert-success">
+        <strong>$ctx.msg</strong>
+    </div>
+$else:
+    <div class="alert alert-error">
+        <strong>$ctx.msg</strong>
+    </div>
+    
