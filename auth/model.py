@@ -3,18 +3,8 @@ import random
 import hashlib
 import ConfigParser
 import web
-
-db_config = ConfigParser.ConfigParser()
-db_config.read('settings.conf')
-dbn = db_config.get('user_db','dbn')
-database = db_config.get('user_db','db')
-user = db_config.get('user_db','user')
-pw = db_config.get('user_db','passwd')
-table = db_config.get('user_db','table')
-if dbn == 'sqlite':
-    db = web.database(dbn=dbn, db=database)
-if dbn == 'mysql':
-    db = web.database(dbn=dbn, db=database, user=user, pw=pw)
+from db import db
+from db import user_table as table
 
 class User:
     def __init__(self, username=None, password=None, **opts):

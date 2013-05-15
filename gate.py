@@ -3,8 +3,7 @@ from home import home_app
 from index import index_app
 from admin import admin_app
 from auth import auth_app
-from model import db 
-
+from db import db
 web.config.debug = False
 
 urls = (

@@ -3,7 +3,7 @@ import sys
 import web
 from web import form
 from web.utils import Storage
-from auth import authenticate, get_username, get_userid, get_email, User, email_re, update_email
+from model import authenticate, get_username, get_userid, get_email, User, email_re, update_email
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
 
