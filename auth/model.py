@@ -74,7 +74,7 @@ def get_email(userid=None):
 
 def is_superuser(userid=None):
     try:
-        return db.select(table,what='is_superuser', where='id=$userid',vars={'userid':userid})[0].is_superuser
+        return True if db.select(table,what='is_superuser', where='id=$userid',vars={'userid':userid})[0].is_superuser else False
     except:
         return False
 

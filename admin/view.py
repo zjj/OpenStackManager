@@ -20,6 +20,7 @@ render = web.template.render('%s/templates/'%(mdir), base='base', globals=t_glob
 class Admin:
     def GET(self):
         userid = web.ctx.session.get('userid', -1)
+        superuser = is_superuser(userid)
         if userid == -1 or not is_superuser(userid):
             raise web.seeother("/index", absolute=True)
         username = get_username(userid=userid)

@@ -46,6 +46,8 @@ $def with(sub)
                 <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> $sub.username </a>
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
+                    $if sub.superuser == 'True':
+                        <li><a href="/admin"><i class="icon-list-alt"></i> Admin</a></li>
                     <li><a href="/home"><i class="icon-home"></i> Personal </a></li>
                     <li><a href="/auth/passwd"><i class="icon-wrench"></i> Settings </a></li>
                     <li><a href="/auth/logout"><i class="icon-off"></i> Logout </a></li>

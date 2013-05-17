@@ -1,8 +1,8 @@
 $def with(ctx)
 $var userid: $ctx.userid
 $var username: $ctx.username
+$var superuser: $ctx.superuser
 $ body = markdown(ctx.index_wiki)
 $if ctx.superuser == True:
-    you are an admin,you could <a href="/admin">Manage servers</a>
-    <a class="pull-right" href="/index/edit"><span class="label label-info">Edit Index page</span></a>
+    <a class="pull-right" href="/index/edit"><i class="icon-edit"></i>edit</a><p>
 $:body

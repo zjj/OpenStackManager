@@ -3,7 +3,7 @@ import sys
 import web
 from web import form
 from web.utils import Storage
-from model import authenticate, get_username, get_userid, get_email, User, email_re, update_email
+from model import authenticate, get_username, get_userid, get_email, User, email_re, update_email, is_superuser
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
 
@@ -87,6 +87,7 @@ render_fluid = web.template.render('%s/templates/'%(mdir), base="fluid", globals
 class Passwd:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother("/login")
         else:
@@ -97,6 +98,7 @@ class Passwd:
     def POST(self):
         if web.ctx.session.get('loggedin',0) == 1:
             userid = web.ctx.session.get('userid',-1)
+            superuser = is_superuser(userid)
             username = get_username(userid)
         request = web.input()
         old_password = request.old_password
@@ -121,6 +123,7 @@ class Passwd:
 class SSH:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
@@ -132,6 +135,7 @@ class SSH:
     @csrf_protected
     def POST(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
@@ -165,6 +169,7 @@ class SSH:
 class Email:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
@@ -174,6 +179,7 @@ class Email:
     
     def POST(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)

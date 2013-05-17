@@ -1,7 +1,7 @@
 import os
 import web
 from model import get_servers, add_server
-from auth import get_username, get_userid
+from auth import get_username, get_userid, is_superuser
 from web.utils import Storage
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
@@ -21,6 +21,7 @@ render = web.template.render('%s/templates/'%(mdir), base='base',globals=t_globa
 class Home:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
@@ -67,6 +68,7 @@ class Apply:
 class Ssh:
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
+        superuser = is_superuser(userid)
         if userid == -1:
             raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
