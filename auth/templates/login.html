@@ -1,4 +1,4 @@
-$def with(login)
+$def with(ctx)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -42,6 +42,10 @@ body {
 </head>
 <body>
 
+$if ctx.msg:
+    <span class="alert alert-error">
+        <strong>ERROR: $ctx.msg</strong>
+    </span> 
 <div class="container">
   <form class="form-signin" action="" method=POST>
     <h2 class="form-signin-heading">Please sign in</h2>

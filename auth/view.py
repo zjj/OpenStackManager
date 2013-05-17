@@ -24,17 +24,13 @@ t_globals = {'csrf':csrf_token}
 render = web.template.render('%s/templates/'%(mdir))
 
 class Login:
-    login_form = form.Form(
-        form.Textbox(name='username',size=10),
-        form.Password(name='password',size=10),
-        form.Button('Login',type='submit'),)
-
     def GET(self):
         session = web.ctx.session
         if session.get('loggedin',0) == 1:
             raise web.seeother("/index", absolute=True)
-        login = self.login_form()
-        return render.login(login)
+        msg = None
+        ctx = Storage(locals())
+        return render.login(ctx)
 
     def POST(self):
         session = web.ctx.session
@@ -48,7 +44,9 @@ class Login:
             session.update({'userid':userid})
             raise web.seeother('/index', absolute=True)
         else:
-            return "username or password error"
+            msg = u"username or password error"
+            ctx = Storage(locals()) 
+            return render.login(ctx)
 
 class Logout:
     def GET(self):  
@@ -60,26 +58,41 @@ class Signup:
         session = web.ctx.session
         if session.get('loggedin',0) == 1:
             raise web.seeother("/index", absolute=True)
-        return render.signup()
+        ctx = Storage({'msg':None})
+        return render.signup(ctx)
 
     def POST(self):
         session = web.ctx.session
         request = web.input()
         username = request.username
         password = request.password
+        password_confirm = request.password_confirm
+        if password != password_confirm:
+            msg = u"password not equal to confirmed password"
+            ctx = Storage(locals())
+            return render.signup(ctx)
         email = request.email
+        if not email_re.match(email):
+            msg = u"Email not valid"
+            ctx = Storage(locals())
+            return render.signup(ctx)
         userid = get_userid(username)
         if userid == -1:
             newuser = User(password=password, username=username, email=email)
+            #### whether email *UNIQUE* depends on the table in database you create
             try:
                 newuser.save()
             except:
-                return "Email exists"
+                msg = u"Email exists"
+                ctx = Storage(locals())
+                return render.signup(ctx)
             newtenant = create_tenant(username)
             newtenant.add_user(get_keystoneuser_id(os_tenant_name), 
                                 get_role_id('admin'))
         else:
-            return "user exists"
+            msg = u"User exists"
+            ctx = Storage(locals())
+            return render.signup(ctx)
         raise web.seeother("/login")
 
 render_fluid = web.template.render('%s/templates/'%(mdir), base="fluid", globals=t_globals)
