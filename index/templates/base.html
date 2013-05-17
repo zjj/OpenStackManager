@@ -30,15 +30,15 @@ $def with(ctx)
           </button>
           <a class="brand" href="/index">Project Name</a>
           <div class="nav-collapse collapse">
+            <ul class="nva">
+            </ul>
     $if ctx.userid == '-1':
-        <li class="pull-right">
-        <form class="navbar-form" action="/auth/login" method=POST>
+        <form class="navbar-form pull-right" action="/auth/login" method=POST>
           <input class="span2" name="username" type="text" placeholder="Username">
           <input class="span2" name="password" type="password" placeholder="Password">
           <button type="submit" class="btn">Sign in</button>
-          <a href="/auth/signup"><button class="btn btn-mini btn-primary" type="button">sign up</button></a>
+          <small><a href="/auth/signup">sign up</a></small>
         </form>
-        </li>
     $else:
         <li class="pull-right">
         <div class="btn-group">
