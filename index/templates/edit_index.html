@@ -1,7 +1,7 @@
 $def with(ctx)
-$var userid: $ctx.userid
-$var username: $ctx.username
-$var superuser: $ctx.superuser
+$var userid = ctx.userid
+$var username = ctx.username
+$var superuser = ctx.superuser
 $ body = markdown(ctx.index_wiki)
 <form action="" method=POST>
 <fieldset>

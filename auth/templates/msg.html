@@ -1,6 +1,6 @@
 $def with(ctx)
-$var username: $ctx.username
-$var superuser: $ctx.superuser
+$var username = ctx.username
+$var superuser = ctx.superuser
 $if ctx.error == False:
     <div class="alert alert-success">
         <strong>$ctx.msg</strong>

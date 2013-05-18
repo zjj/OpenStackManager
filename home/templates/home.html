@@ -1,7 +1,7 @@
 $def with(ctx)
 
-$var username: $ctx.username
-$var superuser: $ctx.superuser
+$var username = ctx.username
+$var superuser = ctx.superuser
 
 $ csrf_token = csrf()
 
