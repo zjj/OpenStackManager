@@ -1,6 +1,6 @@
 import os
 import web
-from model import get_servers, add_server
+from model import get_servers, add_server, delete_server
 from auth import get_username, get_userid, is_superuser
 from web.utils import Storage
 from lib.fakeopenstack import *
@@ -30,6 +30,15 @@ class Home:
         running_servers = get_tenant_servers(tenant_name)
         images = get_images(tenant_name)
         images_dict = dict([(i.id, i.name) for i in images])
+        #Dealing with that the images were deleted in openstack,but the server table still
+        #contains some servers that use the old image. then to get the servers again.
+        servers_x = []
+        for server in servers:
+            if server.image not in images_dict:
+                delete_server(image=server.image) 
+            else:
+                servers_x.append(server)
+        servers = servers_x
         flavors = get_flavors(tenant_name)
         flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
         ctx = Storage(locals())

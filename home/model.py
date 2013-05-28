@@ -7,3 +7,7 @@ def get_servers(userid=None):
 
 def add_server(user, server_name, image, flavor):
     return db.insert('server',**locals())
+
+def delete_server(image=None):
+    '''Delete a server by image_id'''
+    return db.delete('server', where="image=$image", vars=locals())
