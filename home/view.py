@@ -63,7 +63,8 @@ class Home:
         raise web.seeother("/home", absolute=True)
         
  
-class Apply: 
+class Apply:
+    @keypair_required
     @csrf_protected
     def POST(self):
         userid = web.ctx.session.get('userid',-1)

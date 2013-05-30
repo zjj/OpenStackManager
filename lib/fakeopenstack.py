@@ -1,6 +1,8 @@
 from keystoneclient.v2_0 import client as keystone_client
 from novaclient.v1_1 import client as nova_client
+from auth.model import get_username
 import ConfigParser
+import web
 
 keystone_config = ConfigParser.ConfigParser()
 keystone_config.read('settings.conf')
@@ -125,3 +127,21 @@ def delete_pubkey(name):
         if k.name == name:
             k.delete()
             break
+
+def keypair_required(f):
+    def wrap(*args, **kwargs):
+        userid = web.ctx.session.get('userid',-1)
+        name = get_username(userid=userid)
+        nc = nova_client.Client(username, password, name, auth_url, service_type="compute")
+        keypairs = nc.keypairs.list()
+        exist = False
+        for k in keypairs:
+            if k.name == name:
+                exist = True
+                break
+        if exist:  
+            return f(*args, **kwargs)
+        else:
+            raise web.seeother("/auth/ssh", absolute=True)
+    return wrap
+
