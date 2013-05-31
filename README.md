@@ -1,23 +1,23 @@
 A Manager for OpenStack
 =======
 I am not going to re-invent the wheel(Horizon), This is a (web.py + bootstrap)
-based app for managing virtual machine for multi-user model ,some users are admins,
+based app for managing VMs(or instances) under multi-user model that some users are admins,
 while the others are normal users,they need VMs to do something.
 
 
 Functions
 ========
 A user who have signed on could apply a VM, if the admin 
-admit his application,a VM will be created for him, he then could 
-login to his machine via SSH. and the applier could mange his own VMs,
-while the admins could manage all the virtual machines.
+admits his application,a VM will be created for him, he then could 
+login to his machine via SSH. and the applier could manage his own VMs,
+while the admins could manage all the VMs.
 
 ps: After signing up, a user have to supply a public key for ssh.
 
 
 Install
 ========
-If you are going to use sqlite3 as default database,below is a simple guide.
+If you are going to use sqlite3(mysql is suggested) as default database,below is a simple guide.
     
     $cd sql
     $sqlite ./db < schema.sql
@@ -51,7 +51,7 @@ I am using nginx to deploy it:
         rewrite ^/(.*)/$ /$1 permanent;
     }
 
-***something maybe you should pay attention to,the admin role of openstack is "admin".***
+***something maybe you should pay attention to,the admin role of openstack is "admin",it was hardcoing here.***
 
 
 Could you help me to improve it ?
