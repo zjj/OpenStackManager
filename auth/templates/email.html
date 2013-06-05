@@ -13,12 +13,12 @@ $if ctx.email:
 
 <form action="" method=POST>
 <fieldset>
-<legend>Email<span class="label label-important">
-    <strong>Attention:</strong>
-    Temporarily,one user could have only one email,if you upload a new one ,the old would be flushed.</span> </legend>
-<label>email</label>
+<legend>$_("Email")<span class="label label-important">
+    <strong>$_("Attention"):</strong>
+    $_("Temporarily,one user could have only one email,if you upload a new one ,the old would be flushed").</span> </legend>
+<label>$_("email")</label>
 <input name="email" type="text" class="input-block-level" placeholder="example@foo.com">
-<button class="btn btn-small btn-primary" type="submit">Update Email</button>
+<button class="btn btn-small btn-primary" type="submit">$_("Update Email")</button>
 </fieldset>
 </form>
 

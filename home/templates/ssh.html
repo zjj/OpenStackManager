@@ -7,15 +7,15 @@ $ csrf_token = csrf()
 <form action="" method=POST>
 <input type=hidden name=csrf_token value="$csrf_token">
 <fieldset>
-<legend>Import ssh public key<span class="label label-info">you could also just clink the generate button</span> </legend>
-<label>SSH key</label>
+<legend>$_("Import ssh public key")<span class="label label-info">$_("you could also just clink the generate button")</span> </legend>
+<label>$_("SSH key")</label>
 <textarea name="ssh_key" rows="5" class="input-xxlarge"></textarea>
 <p></p>
-<button class="btn btn-small btn-primary" type="submit">Apply</button>
+<button class="btn btn-small btn-primary" type="submit">$_("Apply")</button>
 or
-<button class="btn btn-small btn-primary" type="submit">Generate one</button>
+<button class="btn btn-small btn-primary" type="submit">$_("Generate one")</button>
 <p></p>
-<span class="text-warning">IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe :) </span>
+<span class="text-warning">$_("IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe") :) </span>
 </fieldset>
 </form>
 

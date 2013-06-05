@@ -12,8 +12,14 @@ $def with(ctx)
     <link href="/static/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
+        height: 100%;
         padding-top: 60px;
         padding-bottom: 40px;
+      }
+      .footer{
+        bottom: 0;
+        padding: 10px 0;
+        width: 100%;
       }
     </style>
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
@@ -28,7 +34,7 @@ $def with(ctx)
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="/index">Project Name</a>
+          <a class="brand" href="/index">$_("Project Name")</a>
           <div class="nav-collapse collapse">
             <ul class="nva">
             </ul>
@@ -36,8 +42,8 @@ $def with(ctx)
         <form class="navbar-form pull-right" action="/auth/login" method=POST>
           <input class="span2" name="username" type="text" placeholder="Username">
           <input class="span2" name="password" type="password" placeholder="Password">
-          <button type="submit" class="btn">Sign in</button>
-          <small><a href="/auth/signup">sign up</a></small>
+          <button type="submit" class="btn">$_("Sign in")</button>
+          <small><a href="/auth/signup">$_("sign up")</a></small>
         </form>
     $else:
         <li class="pull-right">
@@ -46,10 +52,10 @@ $def with(ctx)
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
         <ul class="dropdown-menu">
         $if ctx.superuser == True:
-            <li><a href="/admin"><i class="icon-list-alt"></i> Admin</a></li>
-        <li><a href="/home"><i class="icon-home"></i> Personal </a></li>
-        <li><a href="/auth/passwd"><i class="icon-wrench"></i> Settings </a></li>
-        <li><a href="/auth/logout"><i class="icon-off"></i> Logout </a></li>
+            <li><a href="/admin"><i class="icon-list-alt"></i> $_("Admin")</a></li>
+        <li><a href="/home"><i class="icon-home"></i> $_("Personal") </a></li>
+        <li><a href="/auth/passwd"><i class="icon-wrench"></i> $_("Settings") </a></li>
+        <li><a href="/auth/logout"><i class="icon-off"></i> $_("Logout") </a></li>
         </ul>
         </div>
         </li>
@@ -57,7 +63,6 @@ $def with(ctx)
 </div>
 </div>
 </div>
-
 <div class="container">
 $:ctx
 </div>

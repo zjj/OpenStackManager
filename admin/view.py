@@ -5,6 +5,7 @@ from model import *
 from auth import get_username, get_userid, is_superuser
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
+from i18n import custom_gettext as _
 
 urls = (
         "", "Admin",
@@ -12,7 +13,7 @@ urls = (
         "/delete", "Delete",
 )
 
-t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid}
+t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid, '_':_}
 
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base', globals=t_globals)

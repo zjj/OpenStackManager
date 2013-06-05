@@ -10,10 +10,10 @@ $if len(ctx.all_pending_servers) != 0:
     <form action="/admin/check" method=POST>
     <input type=hidden name=csrf_token value="$csrf_token">
     <fieldset>
-    <legend>All pending servers <span class="label label-info">these servers are pending</span> </legend>
+    <legend>$_("All pending servers")<span class="label label-info">$_("these servers are pending")</span> </legend>
     <table class='table'>
         <tr>
-            <th>user</th><th>server name</th><th>image</th><th>flavor</th><th>action</th>
+            <th>$_("user")</th><th>$_("server name")</th><th>$_("image")</th><th>$_("flavor")</th><th>$_("action")</th>
         </tr>
     $for s in ctx.all_pending_servers:
         <tr>
@@ -24,8 +24,8 @@ $if len(ctx.all_pending_servers) != 0:
             <td>
                 <select name="$s.id">
                     <option></option>
-                    <option value="accept">Accept</option>
-                    <option value="reject">Reject</option>
+                    <option value="accept">$_("Accept")</option>
+                    <option value="reject">$_("Reject")</option>
                 </select>
             </td>
         </tr>
@@ -35,7 +35,7 @@ $if len(ctx.all_pending_servers) != 0:
     <td></td>
     <td></td>
     <td>
-        <button class="btn btn-small btn-primary" type="submit">Submit</button>
+        <button class="btn btn-small btn-primary" type="submit">$_("Submit")</button>
     </td>
     </table>
     </fieldset>
@@ -45,10 +45,10 @@ $if len(ctx.all_running_servers) != 0:
     <form action="/admin/delete" method=POST>
     <input type=hidden name=csrf_token value="$csrf_token">
     <fieldset>
-    <legend>All running servers <span class="label label-info">these servers have been accepted</span> </legend>
+    <legend>$_("All running servers") <span class="label label-info">$_("these servers have been accepted")</span> </legend>
     <table class='table'>
         <tr>
-            <th>user</th><th>server name</th><th>image</th><th>flavor</th><th>action</th>
+            <th>$_("user")</th><th>$_("server name")</th><th>$_("image")</th><th>$_("flavor")</th><th>$_("action")</th>
         </tr>
     $for s in ctx.all_running_servers:
         <tr>
@@ -59,7 +59,7 @@ $if len(ctx.all_running_servers) != 0:
             <td>
                 <select name="$s.id">
                     <option></option>
-                    <option value="delete">delete</option>
+                    <option value="delete">$_("delete")</option>
                 </select>
             </td>
         </tr>
@@ -69,7 +69,7 @@ $if len(ctx.all_running_servers) != 0:
     <td></td>
     <td></td>
     <td>
-        <button class="btn btn-small btn-primary" type="submit">Submit</button>
+        <button class="btn btn-small btn-primary" type="submit">$_("Submit")</button>
     </td>
     </table>
     </fieldset>

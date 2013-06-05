@@ -6,7 +6,7 @@ $ csrf_token = csrf()
 
 $if ctx.keypair:
     <fieldset>
-        <legend>working keypair</legend>
+        <legend>$_("working keypair")</legend>
         <div class="alert alert-info">
             $ctx.keypair
         </div>
@@ -15,17 +15,17 @@ $if ctx.keypair:
 <form action="" method=POST>
 <input type=hidden name=csrf_token value="$csrf_token">
 <fieldset>
-<legend>Import a new ssh public key<span class="label label-important">
-    <strong>Attention:</strong>
-    Temporarily,one user could have only one keypair,if you upload a new one ,the old would be flushed.</span> </legend>
-<label>SSH key</label>
+<legend>$_("Import a new ssh public key")<span class="label label-important">
+    <strong>$_("Attention"):</strong>
+    $_("Temporarily,one user could have only one keypair,if you upload a new one ,the old would be flushed").</span> </legend>
+<label>$_("SSH key")</label>
 <textarea name="ssh_key" rows="5" class="input-xxlarge"></textarea>
 <p></p>
-<button class="btn btn-small btn-primary" type="submit">Apply</button>
+<button class="btn btn-small btn-primary" type="submit">$_("Apply")</button>
 or
-<button class="btn btn-small btn-primary" type="submit">Generate one</button>
+<button class="btn btn-small btn-primary" type="submit">$_("Generate one")</button>
 <p></p>
-<span class="text-warning">IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe :) </span>
+<span class="text-warning">$_("IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe") :) </span>
 </fieldset>
 </form>
 

@@ -6,6 +6,7 @@ from web.utils import Storage
 from model import authenticate, get_username, get_userid, get_email, User, email_re, update_email, is_superuser
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
+from i18n import custom_gettext as _
 
 mdir = os.path.dirname(__file__)
 
@@ -19,9 +20,9 @@ urls = (
         "/email", "Email",
 )
 
-t_globals = {'csrf':csrf_token}
+t_globals = {'csrf':csrf_token, '_':_}
 
-render = web.template.render('%s/templates/'%(mdir))
+render = web.template.render('%s/templates/'%(mdir), globals=t_globals)
 
 class Login:
     def GET(self):

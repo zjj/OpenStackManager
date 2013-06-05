@@ -1,0 +1,194 @@
+msgid "Settings"
+msgstr "设置"
+
+msgid "Project name"
+msgstr "项目名"
+
+msgid "Admin"
+msgstr "管理"
+
+msgid "Personal"
+msgstr "个人"
+
+msgid "Logout"
+msgstr "退出"
+
+msgid "Email"
+msgstr "邮箱"
+
+msgid "SSH Key"
+msgstr "SSH公钥"
+
+msgid "SSH Private Key"
+msgstr "SSH私钥"
+
+msgid "keep this safe"
+msgstr "保存至安全处"
+
+msgid "Attention"
+msgstr "注意"
+
+msgid "Temporarily,one user could have only one email,if you upload a new one ,the old would be flushed"
+msgstr "暂时每个用户只支持一个关联邮箱,一旦更新,旧的邮箱将会被被删掉"
+
+msgid "email"
+msgstr "邮箱"
+
+msgid "Update Email"
+msgstr "保存"
+
+msgid "working keypair"
+msgstr "keypair"
+
+msgid "Import a new ssh public key"
+msgstr "导入新的ssh公钥"
+
+msgid "Temporarily,one user could have only one keypair,if you upload a new one ,the old would be flushed"
+msgstr "暂时每个用户只支持一个关联keypair,一旦更新,就得keypair将会被删除"
+
+msgid "Generate one"
+msgstr "系统生成一个"
+
+msgid "IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe"
+msgstr "如果你选择系统生成，请保存点击后生成的私钥，并注意安全"
+
+msgid "Change Password"
+msgstr "修改密码"
+
+msgid "old password"
+msgstr "旧密码"
+
+msgid "new password"
+msgstr "新密码"
+
+msgid "Password Confirm"
+msgstr "密码确认"
+
+msgid "Update Password"
+msgstr "更新密码"
+
+msgid "Hi"
+msgstr "嗨"
+
+msgid "length of password must > 6"
+msgstr "密码长度必须>6"
+
+msgid "Login"
+msgstr "登录"
+
+msgid "ERROR"
+msgstr "错误"
+
+msgid "Please sign in"
+msgstr "请登录"
+
+msgid "Sign in"
+msgstr "登录"
+
+msgid "sign up"
+msgstr "注册"
+
+msgid "Sign up"
+msgstr "注册"
+
+msgid "home"
+msgstr ""
+
+msgid "Import ssh public key"
+msgstr "导入ssh公钥"
+
+msgid "you could also just clink the generate button"
+msgstr "你也可以选择系统生成一个"
+
+msgid "My servers"
+msgstr "我的虚拟机"
+
+msgid "the servers that are running"
+msgstr "这些虚拟机正在运行"
+
+msgid "server"
+msgstr "虚拟机"
+
+msgid "image"
+msgstr "镜像"
+
+msgid "flavor"
+msgstr "资源"
+
+msgid "ip"
+msgstr "地址"
+
+msgid "action"
+msgstr "操作"
+
+msgid "reboot"
+msgstr "重启"
+
+msgid "delete"
+msgstr "删除"
+
+msgid "Apply a new server"
+msgstr "申请虚拟机"
+
+msgid "you could apply a new server here"
+msgstr " "
+
+msgid "server name"
+msgstr "虚拟机"
+
+msgid "Apply"
+msgstr "提交"
+
+msgid "Applied servers"
+msgstr "待审核的虚拟机申请"
+
+msgid "these servers are pending"
+msgstr ""
+
+msgid "All pending servers"
+msgstr "所有待审核的申请"
+
+msgid "user"
+msgstr "用户名"
+
+msgid "Accept"
+msgstr "批准"
+
+msgid "Reject"
+msgstr "拒绝"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "All running servers"
+msgstr "所有正在运行的虚拟机"
+
+msgid "these servers have been accepted"
+msgstr ""
+
+msgid "admin"
+msgstr "管理"
+
+msgid "Index Page"
+msgstr "首页"
+
+msgid "Edit it using Markdown syntax"
+msgstr "Markdown语法"
+
+msgid "Update Index"
+msgstr "更新首页"
+
+msgid "edit"
+msgstr "编辑"
+
+msgid "Password"
+msgstr "密码"
+
+msgid "Login Name"
+msgstr "登录名"
+
+msgid "Email Address"
+msgstr "邮箱"
+
+msgid "Register"
+msgstr "注册"

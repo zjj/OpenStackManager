@@ -5,10 +5,10 @@ $var superuser = ctx.superuser
 $ body = markdown(ctx.index_wiki)
 <form action="" method=POST>
 <fieldset>
-<legend>Index Page</legend><span class="alert alert-info">Edit it using Markdown syntax</span>
+<legend>$_("Index Page")</legend><span class="alert alert-info">$_("Edit it using Markdown syntax")</span>
 <p>
 <textarea name="index_wiki" rows="15" class="input-xxlarge">$ctx.index_wiki</textarea>
 <p>
-<button class="btn btn-small btn-primary" type="submit">Update Index</button>
+<button class="btn btn-small btn-primary" type="submit">$_("Update Index")</button>
 </fieldset>
 </form>

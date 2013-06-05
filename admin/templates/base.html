@@ -3,7 +3,7 @@ $def with(home)
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>admin</title>
+    <title>$_("admin")</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -42,7 +42,7 @@ $def with(home)
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="/index">Project Name</a>
+          <a class="brand" href="/index">$_("Project Name")</a>
           <div class="nav-collapse collapse">
           <li class="pull-right">
           <div class="btn-group">
@@ -50,10 +50,10 @@ $def with(home)
            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
            <ul class="dropdown-menu">
             $if home.superuser == True:
-                <li><a href="/admin"><i class="icon-list-alt"></i> Admin</a></li>
-            <li><a href="/home"><i class="icon-home"></i> Personal </a></li>
-            <li><a href="/auth/passwd"><i class="icon-wrench"></i> Settings </a></li>
-            <li><a href="/auth/logout"><i class="icon-off"></i> Logout </a></li>
+                <li><a href="/admin"><i class="icon-list-alt"></i> $_("Admin")</a></li>
+            <li><a href="/home"><i class="icon-home"></i> $_("Personal") </a></li>
+            <li><a href="/auth/passwd"><i class="icon-wrench"></i> $_("Settings") </a></li>
+            <li><a href="/auth/logout"><i class="icon-off"></i> $_("Logout") </a></li>
            </ul>
           </div>
           </li>

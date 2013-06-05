@@ -4,5 +4,10 @@ $var username = ctx.username
 $var superuser = ctx.superuser
 $ body = markdown(ctx.index_wiki)
 $if ctx.superuser == True:
-    <a class="pull-right" href="/index/edit"><i class="icon-edit"></i>edit</a><p>
+    <a class="pull-right" href="/index/edit"><i class="icon-edit"></i>$_("edit")</a><p>
 $:body
+<div class="footer">
+<a href="/index/lang?lang=en_US">English</a>  <a href="/index/lang?lang=zh_CN">中文</a>
+</div>
+
+

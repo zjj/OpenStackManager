@@ -1,3 +1,4 @@
+import os
 import web
 from home import home_app
 from index import index_app
@@ -14,9 +15,15 @@ urls = (
     '/', index_app,
     )
 
+
+
 app = web.application(urls, globals())
 store = web.session.DBStore(db, 'sessions')
-session = web.session.Session(app, store, initializer={'loggedin': 0})
+session = web.session.Session(app, store, 
+                                initializer={
+                                    'loggedin': 0,
+                                    'lang':'zh_CN'
+                                    })
 
 def session_hook():
     web.ctx.session = session
