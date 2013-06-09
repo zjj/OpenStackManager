@@ -3,7 +3,7 @@ import sys
 import web
 from web import form
 from web.utils import Storage
-from model import authenticate, get_username, get_userid, get_email, User, email_re, update_email, is_superuser
+from model import authenticate, get_username, get_userid, get_email, User, email_re, username_re, update_email, is_superuser
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
 from i18n import custom_gettext as _
@@ -68,6 +68,11 @@ class Signup:
         username = request.username
         password = request.password
         password_confirm = request.password_confirm
+        if not username_re.match(username):
+            msg = u"username is not valid, the length of it must >= 6 , and  it has to start with an alpha character"
+            ctx = Storage(locals())
+            return render.signup(ctx)
+            
         if password != password_confirm:
             msg = u"password not equal to confirmed password"
             ctx = Storage(locals())
