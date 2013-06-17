@@ -79,7 +79,31 @@ def get_flavors(tenant_name=None):
 def create_server(name, image, flavor, tenant_name):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.servers.create(name, image, flavor, key_name=tenant_name)
+
+def create_floatingip(tenant_name):
+    nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
+    return nc.floating_ips.create()
+
+def get_floatingips(tenant_name):
+    nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
+    return nc.floating_ips.list()
+
+def bind_floatingip(tenant_name, server_id, floatingip):
+    nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
+    floatingips = nc.floating_ips.list()
+    for fi in floatingips:
+        if fi.ip == floatingip:
+            FloatingIP = fi
+            break
     
+    if FloatingIP.instance_id and FloatingIP.instance_id != server_id:#@@ unbind floating ip if bound
+        s = nc.servers.get(FloatingIP.instance_id)
+        s.remove_floating_ip(FloatingIP)
+
+    if FloatingIP.instance_id != server_id:
+        server = nc.servers.get(server_id)
+        server.add_floating_ip(FloatingIP) 
+
 def delete_servers(server_id=[]):
     nc = nova_client.Client(username, password, os_tenant_name, auth_url, service_type="compute")
     search_opts = {'all_tenants':True}

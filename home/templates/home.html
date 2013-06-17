@@ -5,6 +5,26 @@ $var superuser = ctx.superuser
 
 $ csrf_token = csrf()
 
+<span class="label label-info">$_("My floating ips")</span>
+<form action="/home/add_floatingip" method=POST>
+<input type=hidden name=csrf_token value="$csrf_token">
+<table>
+<tr>
+$for float_ip in ctx.floating_ips:
+    <td>
+        $float_ip.ip 
+        <select name="$float_ip.ip" style="width:100px;">
+        <option value=''>$_("attach to")</option>
+            $for s in ctx.running_servers:
+                <option value='$s.id'>$s.name</option>
+        </select>
+     </td>
+<td> <button class="btn btn-small btn-primary" type="submit">$_("Submit")</button></td>
+</tr>
+</table>
+</form>
+
+
 $if len(ctx.running_servers) != 0:
     <form action="" method=POST>
     <input type=hidden name=csrf_token value="$csrf_token">

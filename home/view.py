@@ -4,13 +4,14 @@ from model import get_servers, add_server, delete_server
 from auth import get_username, get_userid, is_superuser
 from web.utils import Storage
 from lib.fakeopenstack import *
-from lib.utils import csrf_token, csrf_protected
+from lib.utils import csrf_token, csrf_protected, login_required
 from i18n import custom_gettext as _
 
 urls = (
     '', 'Home',
     '/ssh', 'Ssh',
     '/apply', 'Apply',
+    '/add_floatingip', 'FloatingIp',
 )
 
 t_globals = {'csrf':csrf_token, '_':_}
@@ -18,6 +19,26 @@ t_globals = {'csrf':csrf_token, '_':_}
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base',globals=t_globals)
 
+
+class FloatingIp:
+    def GET(self):
+        return 'nothing to get :)'
+    
+    @login_required
+    @csrf_protected
+    def POST(self):
+        userid = web.ctx.session.get('userid',-1)
+        username = get_username(userid=userid)
+        inp = web.input()
+        inp.pop('csrf_token', None)
+         
+        server_floating = dict((floatingip, server_id) for floatingip, \
+                                server_id in inp.iteritems() if inp[floatingip]!='')
+
+        for floatingip , server_id in server_floating.iteritems():     
+            bind_floatingip(username, server_id, floatingip)
+
+        raise web.seeother("/home", absolute=True)
 
 class Home:
     def GET(self):
@@ -42,6 +63,7 @@ class Home:
         servers = servers_x
         flavors = get_flavors(tenant_name)
         flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
+        floating_ips = get_floatingips(tenant_name)
         ctx = Storage(locals())
         return render.home(ctx)
 

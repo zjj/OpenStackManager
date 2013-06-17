@@ -192,3 +192,9 @@ msgstr "邮箱"
 
 msgid "Register"
 msgstr "注册"
+
+msgid "My floating ips"
+msgstr "我的floating ip"
+
+msgid "attach to"
+msgstr "绑定到"

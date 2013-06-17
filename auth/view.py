@@ -95,6 +95,7 @@ class Signup:
             newtenant = create_tenant(username)
             newtenant.add_user(get_keystoneuser_id(os_tenant_name), 
                                 get_role_id('admin'))
+            floating_ip = create_floatingip(username)
         else:
             msg = u"User exists"
             ctx = Storage(locals())
