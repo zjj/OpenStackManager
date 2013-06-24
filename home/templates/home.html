@@ -37,8 +37,8 @@ $if len(ctx.running_servers) != 0:
     $for s in ctx.running_servers:
         <tr>
             <td>$s.name</td>
-            <td>$ctx.images_dict[s.image['id']]</td>
-            <td>$ctx.flavors_dict[s.flavor['id']]</td>
+            <td>$_(ctx.images_dict.get(s.image['id'], 'unmaintained image'))</td>
+            <td>$_(ctx.flavors_dict.get(s.flavor['id'], 'unmaintained flavor'))</td>
             <td>
                 $for ip_group, address in s.addresses.items():
                     $for ip in address:
