@@ -44,7 +44,7 @@ msgid "Import a new ssh public key"
 msgstr "导入新的ssh公钥"
 
 msgid "Temporarily,one user could have only one keypair,if you upload a new one ,the old would be flushed"
-msgstr "暂时每个用户只支持一个关联keypair,一旦更新,就得keypair将会被删除"
+msgstr "暂时每个用户只支持一个关联keypair,一旦更新,旧的keypair将会被删除"
 
 msgid "Generate one"
 msgstr "系统生成一个"
