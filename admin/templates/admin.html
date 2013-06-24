@@ -19,8 +19,8 @@ $if len(ctx.all_pending_servers) != 0:
         <tr>
             <td>$get_username(s.user)</td>
             <td>$s.server_name</td>
-            <td>$ctx.images_dict[s.image]</td>
-            <td>$ctx.flavors_dict[s.flavor]</td>
+            <td>$_(ctx.images_dict.get(s.image, 'unmaintained image'))</td>
+            <td>$_(ctx.flavors_dict.get(s.flavor, 'unmaintained flavor'))</td>
             <td>
                 <select name="$s.id">
                     <option></option>
@@ -54,8 +54,8 @@ $if len(ctx.all_running_servers) != 0:
         <tr>
             <td>$ctx.tenants_dict[s.tenant_id]</td>
             <td>$s.name</td>
-            <td>$ctx.images_dict[s.image['id']]</td>
-            <td>$ctx.flavors_dict[s.flavor['id']]</td>
+            <td>$_(ctx.images_dict.get(s.image['id'], 'unmaintained image'))</td>
+            <td>$_(ctx.flavors_dict.get(s.flavor['id'], 'unmaintained flavor'))</td>
             <td>
                 <select name="$s.id">
                     <option></option>

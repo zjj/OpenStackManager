@@ -112,8 +112,8 @@ $if len(ctx.servers) != 0:
     $for s in ctx.servers:
         <tr>
             <td>$s.server_name</td>
-            <td>$ctx.images_dict[s.image]</td>
-            <td>$ctx.flavors_dict[s.flavor]</td>
+            <td>$_(ctx.images_dict.get(s.image, 'unmaintained image'))</td>
+            <td>$_(ctx.flavors_dict.get(s.flavor, 'unmaintained image'))</td>
         </tr>
     </table>
     </fieldset>

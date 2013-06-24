@@ -198,3 +198,10 @@ msgstr "我的floating ip"
 
 msgid "attach to"
 msgstr "绑定到"
+
+msgid "unmaintained flavor"
+msgstr "一个不再维护的资源名单"
+
+msgid "unmaintained image"
+msgstr "一个不再维护的镜像"
+
