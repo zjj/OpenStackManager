@@ -205,3 +205,17 @@ msgstr "一个不再维护的资源名单"
 msgid "unmaintained image"
 msgstr "一个不再维护的镜像"
 
+msgid "Please use between 6 and 20 characters which starts with an English character"
+msgstr "用户名长度必须6~20,以英文字母开头"
+
+msgid "It seems the email not validated"
+msgstr "邮箱不合法"
+
+msgid "At least 6 characters"
+msgstr "密码长度至少6位"
+
+msgid "It must be the same with password"
+msgstr "必须和上面输入的密码一致"
+
+msgid "username exists"
+msgstr "该用户名已存在"

@@ -6,62 +6,180 @@ $def with(ctx)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" />
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
 <style type="text/css">
 body {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
+    //background-color: #f5f5f5;
 }
 
 .form-signin {
-    max-width: 300px;
-    padding: 19px 29px 29px;
-    margin: 0 auto 20px;
+    padding: 19px 29px 29px 0px;
+    margin: 0 auto 20px auto;
     background-color: #fff;
-    border: 1px solid #e5e5e5;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-        border-radius: 5px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-        box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    border: 1px;
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-    margin-bottom: 10px;
-}
+
 .form-signin input[type="text"],
 .form-signin input[type="password"] {
     font-size: 16px;
     height: auto;
     margin-bottom: 15px;
-    padding: 7px 9px;
 }
 </style>
+<script type="text/javascript">
+$$(document).ready(function(){
+    $$("#inputUsername").click(function(){
+      $$("#login_name").removeClass('error');
+      $$("#login_name").removeClass('success');
+      $$("#inputUsername").parent().children(".help-inline").html('');
+    });
+
+    $$("#inputUsername").blur(function(){
+        var name_re = /^[a-zA-Z][a-zA-Z0-9_]{5,19}$$/;
+        if (! $$(this)[0].value.match(name_re)){
+          $$("#login_name").addClass('error');
+          $$("#inputUsername").parent().children(".help-inline").html("$_('Please use between 6 and 20 characters which starts with an English character')");}
+        else{
+          $$("#inputUsername").parent().children(".help-inline").html('');
+          var name = $$(this)[0].value;
+          $$.post("membercheck",{username:name},function(data){
+            if (data == "ok"){ 
+              $$("#login_name").addClass('success');
+              $$("#inputUsername").parent().children(".help-inline").html("$_('OK')");}
+            if (data == "exist"){
+              $$("#login_name").addClass('error');
+              $$("#inputUsername").parent().children(".help-inline").html("$_('username exists')");}
+          })}
+    });
+    $$("#inputUsername").focusin(function(){
+        $$('#inputUsername').tooltip('show');
+    });
+
+    $$("#inputEmail").click(function(){
+      $$("#email").removeClass('error');
+      $$("#email").removeClass('success');
+      $$("#inputEmail").parent().children(".help-inline").html("");
+    });
+    $$("#inputEmail").blur(function(){
+        var email_re = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$$/;
+        if (! $$(this)[0].value.match(email_re)){
+          $$("#email").addClass('error');
+          $$("#inputEmail").parent().children(".help-inline").html("$_('It seems the email not validated')");}
+        else{
+          $$("#inputEmail").parent().children(".help-inline").html("");
+          var email_value = $$(this)[0].value;
+          $$.post("emailcheck",{email: email_value},function(data){
+            if (data == "ok"){
+              $$("#email").addClass('success');
+              $$("#inputEmail").parent().children(".help-inline").html("$_('OK')");}
+             if (data == "exist"){
+                $$("#email").addClass('error');
+                //$$("#inputEmail").parent().children(".help-inline").html("$_('this email has been used')");}
+                $$("#inputEmail").next(".help-inline").html("$_('this email has been used')");}
+          })};
+    });
+
+    $$("#inputPassword").focusin(function(){
+        $$('#inputPassword').tooltip('show');
+    });
+    $$("#inputPassword").click(function(){
+      $$("#password").removeClass('error')
+      $$("#inputPassword").parent().children(".help-inline").html("");
+    });
+    $$("#inputPassword").blur(function(){
+        if ($$(this)[0].value.length<6){
+          $$("#password").addClass('error');
+          $$("#inputPassword").parent().children(".help-inline").html("$_('At least 6 characters')");}
+        else{
+          $$("#inputPassword").parent().children(".help-inline").html("");}
+    });
+    $$("#inputPassword").keydown(function(){
+      $$("#password_confirm").removeClass('error');
+      $$("#inputConfirmPassword").parent().children(".help-inline").html("");
+      $$("#inputConfirmPassword")[0].value = ""
+    });
+
+    $$("#inputConfirmPassword").click(function(){
+      $$("#password_confirm").removeClass('error')
+      $$("#inputConfirmPassword").parent().children(".help-inline").html("");
+    });
+    $$("#inputConfirmPassword").blur(function(){
+        if ($$(this)[0].value != $$("#inputPassword")[0].value){
+          $$("#password_confirm").addClass('error');
+          $$("#inputConfirmPassword").parent().children(".help-inline").html("$_('It must be the same with password')");}
+        else{
+          $$("#password_confirm").removeClass('error')
+          $$("#inputConfirmPassword").parent().children(".help-inline").html("");}
+    });
+    
+    $$("form").submit(function(){
+        var name_re = /^[a-zA-Z][a-zA-Z0-9_]{5,19}$$/;
+        var email_re = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$$/;
+        var name_validate = $$("#inputUsername")[0].value.match(name_re);
+        var email_validate = $$("#inputEmail")[0].value.match(email_re);
+        var passwd_validate = ($$("#inputPassword")[0].value.length>5);
+        if(($$("#inputConfirmPassword")[0].value == $$("#inputPassword")[0].value) && name_validate && email_validate && passwd_validate)
+            return true;
+        return false;
+    });
+
+});
+</script>
 </head>
 <body>
 
-$if ctx.msg:
-    <span class="alert alert-error">
-        <strong>$_("ERROR"): $ctx.msg</strong>
-    </span> 
-
 <div class="container">
-  <form class="form-signin" action="" method=POST>
-    <h2 class="form-signin-heading">$_("sign up")</h2>
-    $_("Login Name")
-    <input name="username" type="text" class="input-block-level" placeholder="Username">
-    $_("Email Address")
-    <input name="email" type="text" class="input-block-level" placeholder="example@foo.com">
-    $_("Password")
-    <input name="password" type="password" class="input-block-level" placeholder="Password">
-    $_("Password Confirm")
-    <input name="password_confirm" type="password" class="input-block-level" placeholder="Password">
-    <button class="btn btn-large btn-primary" type="submit">$_("Sign up")</button>
-    </form>
+  <form action="" method=POST class="form-horizontal form-signin">
+   <div class="control-group error">
+      <label class="control-label" for="inputUsername"><h2>$_("Sign up")</h2></label>
+  </div>
+  <div class="control-group error">
+    <label class="control-label"></label>
+      <div class="controls">
+        <input type="hidden">
+          $if ctx.msg:
+              <span class="help-inline">$_("ERROR"): $_(ctx.msg)</span>
+      </div>
+  </div>
+  <div id="login_name" class="control-group">
+    <label class="control-label" for="inputUsername"><strong>$_("Login Name")</strong></label>
+    <div class="controls">
+      <input name="username" type="text" id="inputUsername" placeholder="Username" data-placement="right" data-toggle="tooltip" 
+        data-original-title=$_("Please use between 6 and 20 characters which starts with an English character")>
+      <span id="help-line-name" class="help-inline"></span>
+    </div>
+  </div>
+  <div id="email" class="control-group">
+    <label class="control-label" for="inputEmail"><strong>$_("Email")</strong></label>
+    <div class="controls">
+      <input name="email" type="text" id="inputEmail" placeholder="Email">
+      <span id="help-line-email" class="help-inline"></span>
+    </div>
+  </div>
+  <div id="password" class="control-group">
+    <label class="control-label" for="inputPassword"><strong>$_("Password")</strong></label>
+    <div class="controls">
+      <input name="password" type="password" id="inputPassword" placeholder="Password" data-placement="right" 
+        data-toggle="tooltip" data-original-title=$_("At least 6 characters")>
+      <span id="help-line-password" class="help-inline"></span>
+    </div>
+  </div>
+  <div id="password_confirm" class="control-group">
+    <label class="control-label" for="inputConfirmPassword"><strong>$_("Password Confirm")</strong></label>
+    <div class="controls">
+      <input name="password_confirm" type="password" id="inputConfirmPassword" placeholder="Password">
+      <span class="help-inline"></span>
+    </div>
+  </div>
+  <div id="submit" class="control-group">
+    <div class="controls">
+      <button class="btn btn-large btn-primary" type="submit">$_("Sign up")</button>
+    </div>
+  </div>
+</form>
 </div>
-
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
 </body>
 </html>

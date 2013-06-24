@@ -60,6 +60,12 @@ def get_userid(username=None):
     except:
         return -1
 
+def get_emailid(email=None):
+    try:
+        return db.select(table,what='id', where='email=$email',vars={'email':email})[0].id
+    except:
+        return -1
+
 def get_username(userid=None):
     try:
         return db.select(table,what='username', where='id=$userid',vars={'userid':userid})[0].username

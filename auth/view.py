@@ -4,6 +4,7 @@ import web
 from web import form
 from web.utils import Storage
 from model import authenticate, get_username, get_userid, get_email, User, email_re, username_re, update_email, is_superuser
+from model import get_emailid
 from lib.fakeopenstack import *
 from lib.utils import csrf_token, csrf_protected
 from i18n import custom_gettext as _
@@ -18,6 +19,8 @@ urls = (
         "/passwd", "Passwd",
         "/ssh", "SSH",
         "/email", "Email",
+        "/membercheck", "Membercheck",
+        "/emailcheck", "Emailcheck",
 )
 
 t_globals = {'csrf':csrf_token, '_':_}
@@ -89,7 +92,7 @@ class Signup:
             try:
                 newuser.save()
             except:
-                msg = u"Email exists"
+                msg = u"this email has been used"
                 ctx = Storage(locals())
                 return render.signup(ctx)
             newtenant = create_tenant(username)
@@ -97,7 +100,7 @@ class Signup:
                                 get_role_id('admin'))
             floating_ip = create_floatingip(username)
         else:
-            msg = u"User exists"
+            msg = u"username exists"
             ctx = Storage(locals())
             return render.signup(ctx)
         raise web.seeother("/login")
@@ -215,5 +218,27 @@ class Email:
             error = True
             ctx = Storage(locals())
             return render_fluid.msg(ctx)
+
+class Membercheck:
+    def POST(self):
+        web.header('Content-type','text/plain')
+        request = web.input()
+        username = request.username
+        userid = get_userid(username)
+        if userid == -1:
+            return "ok"
+        else:
+            return "exist"
+
+class Emailcheck:
+    def POST(self):
+        web.header('Content-type','text/plain')
+        request = web.input()
+        email = request.email
+        userid = get_emailid(email)
+        if userid == -1:
+            return "ok"
+        else:
+            return "exist"
 
 auth_app = web.application(urls, globals(), autoreload=True)
