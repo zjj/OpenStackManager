@@ -243,3 +243,6 @@ msgstr "密码修改成功"
 
 msgid "Password doesn't match the confirmation"
 msgstr "两次输入的密码不一致"
+
+msgid "Password too short"
+msgstr "密码太短,至少6位"

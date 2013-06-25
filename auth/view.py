@@ -131,6 +131,9 @@ class Passwd:
         if new_password != new_password_confirm:
             msg = "Password doesn't match the confirmation"
             error = True
+        elif len(new_password) < 6:
+            msg = "Password too short"
+            error = True
         else:
             user = User(username=username, password=old_password)
             if user.is_authenticated() == True:
