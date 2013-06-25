@@ -249,14 +249,17 @@ class Email:
         email = request.email
         if email_re.match(email):
             update_email(userid, email)
+            msg = "Email updated"
+            error = False
             email = get_email(userid=userid) 
             ctx = Storage(locals())
             return render_fluid.email(ctx)
         else:
-            msg = "Email not valid"
+            msg = "Email not validate, using the old"
             error = True
+            email = get_email(userid=userid) 
             ctx = Storage(locals())
-            return render_fluid.msg(ctx)
+            return render_fluid.email(ctx)
 
 class Membercheck:
     def POST(self):
