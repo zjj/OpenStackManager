@@ -28,8 +28,47 @@ $def with(sub)
       }
     </style>
     <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-  </head>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    $$(document).ready(function(){
+    $$("input[name='old_password']").blur(function(){
+       var old_password = $$(this)[0].value;
+       $$.post("passwdcheck",{old_password: old_password},function(data){
+         if(data=="fail"){$$("#old_password_help").html("<font color=red>$_("old password error")</font>");}
+         if(data=="ok"){$$("#old_password_help").html("<font color=green>$_("OK")</font>");}
+       });
+    });
 
+    $$("input[name='old_password']").click(function(){
+         $$("#old_password_help").html("");
+    });
+
+    $$("input[name='new_password']").blur(function(){
+      if ($$(this)[0].value.length<6){
+        $$("#new_password_help").html("<font color=red>$_("At least 6 characters")</font>");}
+    });
+
+    $$("input[name='new_password']").click(function(){
+       $$("#new_password_help").html("");
+    });
+
+    $$("input[name='new_password']").keydown(function(){
+       $$("input[name='new_password_confirm']")[0].value = "";
+       $$("#new_password_confirm_help").html("");
+       $$("#new_password_help").html("");
+    });
+
+    $$("input[name='new_password_confirm']").blur(function(){
+      if ($$(this)[0].value != $$("input[name='new_password']")[0].value ){
+        $$("#new_password_confirm_help").html("<font color=red>$_("It must be the same with password")</font>");}
+    });
+    $$("input[name='new_password_confirm']").click(function(){
+        $$("#new_password_confirm_help").html("");
+    });
+    });
+    </script>
+  </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -64,7 +103,7 @@ $def with(sub)
         <div class="span3">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="nav-header">Settings</li>
+              <li class="nav-header">$_("Settings")</li>
               <li><a href="email">$_("Email")</a></li>
               <li><a href="passwd">$_("Change Password")</a></li>
               <li><a href="ssh">$_("SSH Key")</a></li>
@@ -79,7 +118,5 @@ $def with(sub)
       </div><!--/row-->
       <hr>
     </div><!--/.fluid-container-->
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
   </body>
 </html>

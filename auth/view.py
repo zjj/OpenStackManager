@@ -21,6 +21,7 @@ urls = (
         "/email", "Email",
         "/membercheck", "Membercheck",
         "/emailcheck", "Emailcheck",
+        "/passwdcheck", "Passwdcheck",
 )
 
 t_globals = {'csrf':csrf_token, '_':_}
@@ -142,6 +143,21 @@ class Passwd:
                 error = True
         ctx = Storage(locals())
         return render_fluid.msg(ctx)
+
+class Passwdcheck:
+    def POST(self):
+        web.header('Content-type','text/plain')
+        if web.ctx.session.get('loggedin',0) == 1:
+            userid = web.ctx.session.get('userid',-1)
+            superuser = is_superuser(userid)
+            username = get_username(userid)
+        request = web.input()
+        old_password = request.old_password
+        user = User(username=username, password=old_password)
+        if user.is_authenticated() == True:
+            return 'ok'
+        else:
+            return 'fail'
 
 class SSH:
     def GET(self):

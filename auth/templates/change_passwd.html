@@ -7,17 +7,16 @@ $var superuser = ctx.superuser
 <legend>$_("Change Password")</legend>
     <label>$_("old password")</label>
     <input name="old_password" type="password" placeholder="oldPassword">
+    <span id="old_password_help" class="help-inline"></span>
     <label>$_("new password")</label>
     <input name="new_password" type="password" placeholder="newPassword">
+    <span id="new_password_help" class="help-inline"></span>
     <label>$_("Password Confirm")</label>
     <input name="new_password_confirm" type="password" placeholder="Password confirm">
+    <span id="new_password_confirm_help" class="help-inline"></span>
     <label></label>
     <button class="btn btn-large btn-primary" type="submit">$_("Update Password")</button>
 </fieldset>
 </form>
-<p>
-<div class="alert alert-info">
-<button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>$_("Hi")</strong>: $_("length of password must > 6") :)
 </div>
 

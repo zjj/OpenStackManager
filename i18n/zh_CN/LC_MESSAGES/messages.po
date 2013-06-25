@@ -222,3 +222,6 @@ msgstr "该用户名已存在"
 
 msgid "this email has been used"
 msgstr "该邮箱已被使用"
+
+msgid "old password error"
+msgstr "旧密码错误"
