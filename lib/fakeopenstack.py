@@ -131,8 +131,10 @@ def create_tenant(name):
 # Here tenant_name is going to be the keypair name,
 # one tenant <--> one keypair for temporarily.
 # name, keypair name, tenant_name are the same value.
-def import_pubkey(name, pub_key=None):
-    nc = nova_client.Client(username, password, name, auth_url, service_type="compute")
+def import_pubkey(name, tenant_name=None, pub_key=None):
+    if tenant_name == None:
+        tenant_name = name
+    nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     newkeypair = nc.keypairs.create(name, pub_key)
     return newkeypair 
 
@@ -144,8 +146,10 @@ def fingerprint(name):
             return k.fingerprint
     
 
-def delete_pubkey(name):
-    nc = nova_client.Client(username, password, name, auth_url, service_type="compute")
+def delete_pubkey(name, tenant_name=None):
+    if tenant_name == None:
+        tenant_name = name
+    nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     keypairs = nc.keypairs.list()
     for k in keypairs:
         if k.name == name:

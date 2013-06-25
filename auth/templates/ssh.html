@@ -4,6 +4,10 @@ $var username = ctx.username
 $var superuser = ctx.superuser
 $ csrf_token = csrf()
 
+
+$if ctx.has_key("msg"):
+    <div class="alert alert-error">$_(ctx.msg)</div>
+
 $if ctx.keypair:
     <fieldset>
         <legend>$_("working keypair")</legend>
@@ -20,12 +24,29 @@ $if ctx.keypair:
     $_("Temporarily,one user could have only one keypair,if you upload a new one ,the old would be flushed").</span> </legend>
 <label>$_("SSH key")</label>
 <textarea name="ssh_key" rows="5" class="input-xxlarge"></textarea>
+<span class="help-inline"></span>
 <p></p>
-<button class="btn btn-small btn-primary" type="submit">$_("Apply")</button>
+<button id="apply_button" class="btn btn-small btn-primary" type="button">$_("Apply")</button>
 or
-<button class="btn btn-small btn-primary" type="submit">$_("Generate one")</button>
-<p></p>
+<button id="generate_button" class="btn btn-small btn-primary" type="button">$_("Generate one")</button>
+<br>
 <span class="text-warning">$_("IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe") :) </span>
 </fieldset>
 </form>
+
+<script type="text/javascript">
+   $$(document).ready(function(){
+    $$('#generate_button').click(function(){
+      $$("textarea[name='ssh_key']")[0].value='';
+      $$('form').submit(); 
+    });
+    $$('#apply_button').click(function(){
+      if($$("textarea[name='ssh_key']")[0].value==''){
+        $$(".help-inline").html("<font color=red>$_("You can't leave this empty")</font>");}
+      else
+        $$('form').submit();
+   });
+   }); 
+</script>
+
 

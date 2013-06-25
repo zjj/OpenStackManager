@@ -185,14 +185,37 @@ class SSH:
             if not (ssh_key.startswith("ssh-rsa") or ssh_key.startswith("ssh-dss")):
                 msg = "SSH INPUT ERROR"
                 error = True
+                tenant_name = username
+                keypair = fingerprint(tenant_name)
                 ctx = Storage(locals())
-                return render_fluid.msg(ctx) 
+                return render_fluid.ssh(ctx) 
             else:
+                from uuid import uuid4
+                temp_name = uuid4().hex
+                try:
+                    import_pubkey(temp_name, tenant_name=username ,pub_key=ssh_key)
+                    delete_pubkey(temp_name, tenant_name=username) # Need to check again ?
+                except:
+                    ##the input ssh not validate
+                    msg = "SSH INPUT ERROR"
+                    error = True
+                    tenant_name = username
+                    keypair = fingerprint(tenant_name)
+                    ctx = Storage(locals())
+                    return render_fluid.ssh(ctx) 
                 try:
                     delete_pubkey(username)
                 except:
                     pass
-                import_pubkey(username,pub_key=ssh_key)
+                try:
+                    import_pubkey(username,pub_key=ssh_key)
+                except:
+                    msg = "SSH INPUT ERROR"
+                    error = True
+                    tenant_name = username
+                    keypair = fingerprint(tenant_name)
+                    ctx = Storage(locals())
+                    return render_fluid.ssh(ctx)
                 raise web.seeother('')
         else:
             try:
