@@ -6,26 +6,19 @@ $def with(ctx)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-responsive.css" />
-</head>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.js"></script>
 <style type="text/css">
 body {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
 }
 
 .form-signin {
-    max-width: 300px;
     padding: 19px 29px 29px;
     margin: 0 auto 20px;
     background-color: #fff;
     border: 1px solid #e5e5e5;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-        border-radius: 5px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-        box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
@@ -41,19 +34,38 @@ body {
 </style>
 </head>
 <body>
-
-$if ctx.msg:
-    <span class="alert alert-error">
-        <strong>$_("ERROR"): $ctx.msg</strong>
-    </span> 
 <div class="container">
-  <form class="form-signin" action="" method=POST>
-    <h2 class="form-signin-heading">$_("Please sign in")</h2>
-    <input name="username" type="text" class="input-block-level" placeholder="Username">
-    <input name="password" type="password" class="input-block-level" placeholder="Password">
-    <button class="btn btn-large btn-primary" type="submit">$_("Sign in")</button>
-  </form>
+  <form action="" method=POST class="form-horizontal form-signin">
+   <div class="control-group">
+      <label class="control-label"><h2>$_("Please sign in")</h2></label>
+  </div>
+  <div class="control-group error">
+    <label class="control-label"></label>
+      <div class="controls">
+        <input type="hidden">
+          $if ctx.msg:
+              <span id="error_msg" class="help-inline">$_(ctx.msg)</span>
+      </div>
+  </div>
+  <div id="login_name" class="control-group">
+    <label class="control-label" for="username"><strong>$_("Login Name")</strong></label>
+    <div class="controls">
+      <input name="username" type="text" id="username" placeholder="Username">
+    </div>
+  </div>
+  <div id="password" class="control-group">
+    <label class="control-label" for="password"><strong>$_("Password")</strong></label>
+    <div class="controls">
+      <input name="password" type="password" id="password" placeholder="Password">
+    </div>
+  </div>
+  <div id="submit" class="control-group">
+    <div class="controls">
+     <button class="btn btn-large btn-primary" type="submit">$_("Sign in")</button>
+     <a href="/auth/signup">$_("sign up")</a>
+    </div>
+  </div>
+</form>
 </div>
-
 </body>
 </html>

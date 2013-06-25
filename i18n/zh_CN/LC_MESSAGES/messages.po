@@ -246,3 +246,7 @@ msgstr "两次输入的密码不一致"
 
 msgid "Password too short"
 msgstr "密码太短,至少6位"
+
+msgid "username or password error"
+msgstr "用户名或者密码错误"
+
