@@ -31,6 +31,10 @@ body {
 </style>
 <script type="text/javascript">
 $$(document).ready(function(){
+    var g_name_validate = false;
+    var g_email_validate = false;
+    var g_passwd_validate = false;
+
     $$("#inputUsername").click(function(){
       $$("#login_name").removeClass('error');
       $$("#login_name").removeClass('success');
@@ -46,7 +50,8 @@ $$(document).ready(function(){
           $$("#inputUsername").parent().children(".help-inline").html('');
           var name = $$(this)[0].value;
           $$.post("membercheck",{username:name},function(data){
-            if (data == "ok"){ 
+            if (data == "ok"){
+              g_name_validate = true;
               $$("#login_name").addClass('success');
               $$("#inputUsername").parent().children(".help-inline").html("$_('OK')");}
             if (data == "exist"){
@@ -73,6 +78,7 @@ $$(document).ready(function(){
           var email_value = $$(this)[0].value;
           $$.post("emailcheck",{email: email_value},function(data){
             if (data == "ok"){
+              g_email_validate = true;
               $$("#email").addClass('success');
               $$("#inputEmail").parent().children(".help-inline").html("$_('OK')");}
              if (data == "exist"){
@@ -116,12 +122,8 @@ $$(document).ready(function(){
     });
     
     $$("form").submit(function(){
-        var name_re = /^[a-zA-Z][a-zA-Z0-9_]{5,19}$$/;
-        var email_re = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$$/;
-        var name_validate = $$("#inputUsername")[0].value.match(name_re);
-        var email_validate = $$("#inputEmail")[0].value.match(email_re);
-        var passwd_validate = ($$("#inputPassword")[0].value.length>5);
-        if(($$("#inputConfirmPassword")[0].value == $$("#inputPassword")[0].value) && name_validate && email_validate && passwd_validate)
+        g_passwd_validate = ($$("#inputPassword")[0].value.length>5) && $$("#inputConfirmPassword")[0].value == $$("#inputPassword")[0].value ;
+        if(g_name_validate && g_email_validate && g_passwd_validate)
             return true;
         return false;
     });
@@ -133,7 +135,7 @@ $$(document).ready(function(){
 
 <div class="container">
   <form action="" method=POST class="form-horizontal form-signin">
-   <div class="control-group error">
+   <div class="control-group">
       <label class="control-label" for="inputUsername"><h2>$_("Sign up")</h2></label>
   </div>
   <div class="control-group error">

@@ -219,3 +219,6 @@ msgstr "必须和上面输入的密码一致"
 
 msgid "username exists"
 msgstr "该用户名已存在"
+
+msgid "this email has been used"
+msgstr "该邮箱已被使用"
