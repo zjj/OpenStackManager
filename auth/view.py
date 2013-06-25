@@ -136,13 +136,13 @@ class Passwd:
             if user.is_authenticated() == True:
                 user.set_passwd(new_password)
                 user.save(update=True)
-                msg = "PassWord Changed!"
+                msg = "PassWord Changed"
                 error = False
             else:
-                msg = "Old PassWord Error!"
+                msg = "Old PassWord Error"
                 error = True
         ctx = Storage(locals())
-        return render_fluid.msg(ctx)
+        return render_fluid.change_passwd(ctx)
 
 class Passwdcheck:
     def POST(self):

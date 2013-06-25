@@ -234,3 +234,12 @@ msgstr "输入错误"
 
 msgid "You can't leave this empty"
 msgstr "不能为空"
+
+msgid "Old PassWord Error"
+msgstr "旧密码错误"
+
+msgid "PassWord Changed"
+msgstr "密码修改成功"
+
+msgid "Password doesn't match the confirmation"
+msgstr "两次输入的密码不一致"
