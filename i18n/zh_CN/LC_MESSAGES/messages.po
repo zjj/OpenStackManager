@@ -164,7 +164,7 @@ msgid "All running servers"
 msgstr "所有正在运行的虚拟机"
 
 msgid "these servers have been accepted"
-msgstr ""
+msgstr " "
 
 msgid "admin"
 msgstr "管理"

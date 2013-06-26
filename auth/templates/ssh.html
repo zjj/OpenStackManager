@@ -11,7 +11,6 @@ $if ctx.keypair:
             $ctx.keypair
         </div>
     </fieldset><p>
-
 <form action="" method=POST>
 <input type=hidden name=csrf_token value="$csrf_token">
 <fieldset>
@@ -29,7 +28,6 @@ or
 <span class="text-warning">$_("IF you choose to Generate one, you should leave the textarea blank, copy the private key yourself and keep it safe") :) </span>
 </fieldset>
 </form>
-
 <script type="text/javascript">
    $$(document).ready(function(){
     $$('#generate_button').click(function(){
@@ -44,5 +42,4 @@ or
    });
    }); 
 </script>
-
 

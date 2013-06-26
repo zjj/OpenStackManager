@@ -1,52 +1,40 @@
 $def with(ctx)
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Index</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+<meta charset="utf-8">
+<title>Index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        height: 100%;
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .footer{
-        bottom: 0;
-        padding: 10px 0;
-        width: 100%;
-      }
-    </style>
-    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="/index">$_("Project Name")</a>
-          <div class="nav-collapse collapse">
-            <ul class="nva">
-            </ul>
+<link href="/static/css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container">
+<a class="brand" href="/index">$_("Project Name")</a>
+<div class="nav-collapse collapse navbar-inverse-collapse">
+    <ul class="nav pull-right">
     $if ctx.userid == -1:
-        <form class="navbar-form pull-right" action="/auth/login" method=POST>
+        <li>
+        <form class="navbar-form" action="/auth/login" method=POST>
           <input class="span2" name="username" type="text" placeholder="Username">
           <input class="span2" name="password" type="password" placeholder="Password">
-          <button type="submit" class="btn">$_("Sign in")</button>
-          <small><a href="/auth/signup">$_("sign up")</a></small>
+          <button type="submit" class="btn btn-primary">$_("Sign in")</button>
         </form>
+        </li>
+        <li><a href="/auth/signup">$_("sign up")</a></li>
     $else:
-        <li class="pull-right">
+        <li>
         <div class="btn-group">
         <a class="btn btn-primary" href="/home"><i class="icon-user icon-white"></i> $ctx.username </a>
         <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
@@ -59,13 +47,24 @@ $def with(ctx)
         </ul>
         </div>
         </li>
+    <li class="divider-vertical"></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language(语言)<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="/index/lang?lang=zh_CN">中文</a></li>
+            <li><a href="/index/lang?lang=en_US">English</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </div>
 </div>
 </div>
-</div>
+
 <div class="container">
 $:ctx
 </div>
+
 <script src="/static/js/jquery.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 </body>

@@ -1,84 +1,79 @@
 $def with(sub)
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>$_("Settings")</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+<meta charset="utf-8">
+<title>$_("Settings")</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="/static/css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+  .sidebar-nav {
+    padding: 9px 0;
+  }
 
-    <!-- Le styles -->
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
+  @media (max-width: 980px) {
+    .navbar-text.pull-right {
+      float: none;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+</style>
+<link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar-inner">
+<div class="container container-fluid">
+    <a class="brand" href="/index">$_("Project Name")</a>
+    <div class="nav-collapse collapse navbar-inverse-collapse">
+      <ul class="nav pull-right">
+        <li>
+          <div class="btn-group">
+            <a class="btn btn-primary" href="/home"><i class="icon-user icon-white"></i> $sub.username </a>
+            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            $if sub.superuser == True:
+                <li><a href="/admin"><i class="icon-list-alt"></i> $_("Admin")</a></li>
+            <li><a href="/home"><i class="icon-home"></i> $_("Personal") </a></li>
+            <li><a href="/auth/passwd"><i class="icon-wrench"></i> $_("Settings") </a></li>
+            <li><a href="/auth/logout"><i class="icon-off"></i> $_("Logout") </a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+</div>
+</div>
+</div>
 
-      @media (max-width: 980px) {
-        .navbar-text.pull-right {
-          float: none;
-          padding-left: 5px;
-          padding-right: 5px;
-        }
-      }
-    </style>
-    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet">
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="/index">$_("Project name")</a>
-          <div class="nav-collapse collapse">
-            <li class="pull-right">
-              <div class="btn-group">
-                <a class="btn btn-primary" href="/home"><i class="icon-user icon-white"></i> $sub.username </a>
-                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    $if sub.superuser == True:
-                        <li><a href="/admin"><i class="icon-list-alt"></i> $_("Admin")</a></li>
-                    <li><a href="/home"><i class="icon-home"></i> $_("Personal") </a></li>
-                    <li><a href="/auth/passwd"><i class="icon-wrench"></i> $_("Settings") </a></li>
-                    <li><a href="/auth/logout"><i class="icon-off"></i> $_("Logout") </a></li>
-                </ul>
-              </div>
-            </li>
-          </div><!--/.nav-collapse -->
-        </div>
+<div class="container container-fluid">
+  <div class="row-fluid">
+    <div class="span3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header">$_("Settings")</li>
+          <li><a href="email">$_("Email")</a></li>
+          <li><a href="passwd">$_("Change Password")</a></li>
+          <li><a href="ssh">$_("SSH Key")</a></li>
+        </ul>
       </div>
     </div>
-
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">$_("Settings")</li>
-              <li><a href="email">$_("Email")</a></li>
-              <li><a href="passwd">$_("Change Password")</a></li>
-              <li><a href="ssh">$_("SSH Key")</a></li>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
-          <div class="hero-unit">
-            $:sub
-          </div>
-        </div><!--/span-->
-      </div><!--/row-->
-      <hr>
-    </div><!--/.fluid-container-->
-  </body>
+    <div class="span9">
+      <div class="hero-unit">
+        $:sub
+      </div>
+    </div>
+  </div>
+  <hr>
+</div>
+</body>
 </html>
