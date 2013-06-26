@@ -9,7 +9,6 @@ from i18n import custom_gettext as _
 
 urls = (
     '', 'Home',
-    '/ssh', 'Ssh',
     '/apply', 'Apply',
     '/add_floatingip', 'FloatingIp',
 )
@@ -85,7 +84,6 @@ class Home:
         delete_servers(to_delete_servers)
         raise web.seeother("/home", absolute=True)
         
- 
 class Apply:
     @keypair_required
     @csrf_protected
@@ -98,37 +96,4 @@ class Apply:
         add_server(userid, server_name, image_id, flavor)        
         raise web.seeother("/home", absolute=True)
 
-class Ssh:
-    def GET(self):
-        userid = web.ctx.session.get('userid',-1)
-        superuser = is_superuser(userid)
-        if userid == -1:
-            raise web.seeother('/index', absolute=True)
-        username = get_username(userid=userid)
-        tenant_name = username
-        ctx = Storage(locals())
-        return render.ssh(ctx)
-    
-    @csrf_protected
-    def POST(self):
-        userid = web.ctx.session.get('userid',-1)
-        if userid == -1:
-            raise web.seeother('/index', absolute=True)
-        username = get_username(userid=userid)
-
-        request = web.input()
-        ssh_key = request.ssh_key
-        if ssh_key != '':
-            if not (ssh_key.startswith("ssh-rsa") or ssh_key.startswith("ssh-dss")):
-                return "SSH INPUT ERROR"
-            else:
-                import_pubkey(username,pub_key=ssh_key)
-                raise web.seeother('/home', absolute=True)
-        else:
-            npk = import_pubkey(username,pub_key=None)
-            private_key = npk.private_key
-        
-        ctx = Storage(locals())
-        return render.private_key(ctx)
-              
 home_app = web.application(urls, locals(), autoreload=True)
