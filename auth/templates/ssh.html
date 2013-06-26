@@ -4,6 +4,14 @@ $var username = ctx.username
 $var superuser = ctx.superuser
 $ csrf_token = csrf()
 
+
+
+$if ctx.has_key('msg'):
+    $if ctx.error == True:
+         <div class="alert alert-error">$_(ctx.msg)</div>
+    $else:
+        <div class="alert alert-success">$_(ctx.msg)</div>
+
 $if ctx.keypair:
     <fieldset>
         <legend>$_("working keypair")</legend>
