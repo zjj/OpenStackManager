@@ -250,3 +250,17 @@ msgstr "密码太短,至少6位"
 msgid "username or password error"
 msgstr "用户名或者密码错误"
 
+msgid "error"
+msgstr "错误"
+
+msgid "active"
+msgstr "运行中"
+
+msgid "building"
+msgstr "创建中"
+
+msgid "status"
+msgstr "状态"
+
+msgid "deleting"
+msgstr "删除中"

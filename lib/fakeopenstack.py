@@ -3,6 +3,7 @@ from novaclient.v1_1 import client as nova_client
 from auth.model import get_username
 import ConfigParser
 import web
+from i18n import custom_gettext as _
 
 keystone_config = ConfigParser.ConfigParser()
 keystone_config.read('settings.conf')
@@ -73,11 +74,31 @@ def get_tenant_servers(tenant_name=None):
         search_opts = {'tenant_id':get_tenant_id(tenant_name)}
     all_servers = nc.servers.list(search_opts=search_opts)
     running_servers = []
-    for s in all_servers:
-        if getattr(s, "OS-EXT-STS:power_state", 0) == 1 and s.status == 'ACTIVE':    #running and active
-            running_servers.append(s)
+    if tenant_name != os_tenant_name:
+        for s in all_servers:
+            if getattr(s, "OS-EXT-STS:power_state", 0) == 1 and s.status == 'ACTIVE':    #running and active
+                running_servers.append(s)
+    else:
+        running_servers = all_servers
+        #for s in all_servers:
+        #    if getattr(s, "OS-EXT-STS:power_state", 0) == 1:
+        #        running_servers.append(s)
     return running_servers
 
+def get_server_status(server_list=[]):
+    status_dict={}
+    nc = nova_client.Client(username, password, os_tenant_name, auth_url, service_type="compute")
+    search_opts = {'all_tenants':True}
+    servers = nc.servers.list(search_opts=search_opts)
+    for s in servers:
+        if s.id in server_list:
+            stat = getattr(s, 'OS-EXT-STS:task_state', None)
+            if not stat:
+                stat = getattr(s, 'OS-EXT-STS:vm_state', None)
+            status_dict.update({s.id:_(stat)})
+    print status_dict
+    return status_dict
+            
 def get_images(tenant_name=None):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.images.list()

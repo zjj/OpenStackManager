@@ -5,7 +5,6 @@ $var superuser = ctx.superuser
 
 $ csrf_token = csrf()
 
-
 $if len(ctx.all_pending_servers) != 0:
     <form action="/admin/check" method=POST>
     <input type=hidden name=csrf_token value="$csrf_token">
@@ -48,7 +47,7 @@ $if len(ctx.all_running_servers) != 0:
     <legend>$_("All running servers") <span class="label label-info">$_("these servers have been accepted")</span> </legend>
     <table class='table'>
         <tr>
-            <th>$_("user")</th><th>$_("server name")</th><th>$_("image")</th><th>$_("flavor")</th><th>$_("action")</th>
+            <th>$_("user")</th><th>$_("server name")</th><th>$_("image")</th><th>$_("flavor")</th><th>$_("status")</th><th>$_("action")</th>
         </tr>
     $for s in ctx.all_running_servers:
         <tr>
@@ -56,6 +55,7 @@ $if len(ctx.all_running_servers) != 0:
             <td>$s.name</td>
             <td>$_(ctx.images_dict.get(s.image['id'], 'unmaintained image'))</td>
             <td>$_(ctx.flavors_dict.get(s.flavor['id'], 'unmaintained flavor'))</td>
+            <td id="$s.id">$_(getattr(s,"OS-EXT-STS:vm_state"))</td>
             <td>
                 <select name="$s.id">
                     <option></option>
@@ -74,4 +74,25 @@ $if len(ctx.all_running_servers) != 0:
     </table>
     </fieldset>
     </form>
+<script type="text/javascript">
+$$(document).ready(function(){
+    setInterval(function(){
+      var all_servers = '';
+      var servers = $$("form select");
+      for(var i=0;i<servers.length;i++){
+        all_servers += servers[i].name+'$$';
+      }
+      $$.post("/admin/updatestatus",{servers: all_servers},function(data){
+      var status = $$.parseJSON(data);  
+      $$.each(status, function(key, val){
+        $$('#'+key).html(val);
+      });
+      for(var i=0;i<servers.length;i++){
+        if(data.indexOf(servers[i].name)==-1){
+          $$('#'+servers[i].name).parent().remove();}
+      }
+      });
+    },5000);
+});
+</script>
 

@@ -11,9 +11,10 @@ urls = (
         "", "Admin",
         "/check", "Check",
         "/delete", "Delete",
+        "/updatestatus", "UpdateStatus",
 )
 
-t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid, '_':_}
+t_globals = {'csrf':csrf_token, 'get_username':get_username, 'get_userid':get_userid, '_':_, 'getattr':getattr}
 
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base', globals=t_globals)
@@ -80,5 +81,16 @@ class Delete:
         #I have to refresh the page
         delete_servers(servers_id) 
         raise web.seeother("/admin", absolute=True)
+
+class UpdateStatus:
+    def POST(self):
+        web.header('Content-type','text/plain')
+        servers = web.input().servers.split("$")
+        status = get_server_status(servers);
+        import simplejson as json
+        return json.dumps(status)
+
+
+        
 
 admin_app = web.application(urls, locals(), autoreload=True)
