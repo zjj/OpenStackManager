@@ -99,6 +99,7 @@ class Signup:
             newtenant = create_tenant(username)
             newtenant.add_user(get_keystoneuser_id(os_tenant_name), 
                                 get_role_id('admin'))
+            create_default_security_group_rules(username)
             floating_ip = create_floatingip(username)
         else:
             msg = u"username exists"

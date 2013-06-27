@@ -11,6 +11,18 @@ username = keystone_config.get('keystone','username')
 password = keystone_config.get('keystone','password')
 os_tenant_name = keystone_config.get('keystone','os_tenant_name')
 
+def security_ports_filter(security_ports=[]):
+    ret = []
+    for i in security_ports:
+        try:
+            ret.append(str(int(i)))
+        except ValueError:
+            pass
+    return ret
+              
+security_ports = security_ports_filter(keystone_config.get('nova','security_ports').split(','))
+
+
 def get_tenant_id(tenant_name=None):
     kc = keystone_client.Client(username=username,
                      password=password, tenant_name=os_tenant_name, auth_url=auth_url)
@@ -126,7 +138,22 @@ def create_tenant(name):
     newtenant = kc.tenants.create(name)
     return newtenant
 
-    
+def create_default_security_group_rules(tenant_name):
+    nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
+    global security_ports
+    sg = nc.security_groups.api.security_groups.list()[0] #we only use the first security group
+    sg_id = sg.id
+    sgr = nc.security_group_rules
+    try:
+        sgr.create(sg_id, 'icmp', from_port='-1', to_port='-1', cidr='0.0.0.0/0')
+    except:
+        pass
+    for port in security_ports:
+        try:
+            sgr.create(sg_id, 'tcp', from_port=port, to_port=port, cidr='0.0.0.0/0')  
+        except:
+            pass
+
 # NEED TO BE IMPROVED ?
 # Here tenant_name is going to be the keypair name,
 # one tenant <--> one keypair for temporarily.
