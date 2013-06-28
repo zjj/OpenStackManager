@@ -143,7 +143,7 @@ msgid "Applied servers"
 msgstr "待审核的虚拟机申请"
 
 msgid "these servers are pending"
-msgstr ""
+msgstr " "
 
 msgid "All pending servers"
 msgstr "所有待审核的申请"

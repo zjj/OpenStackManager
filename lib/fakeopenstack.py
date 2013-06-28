@@ -96,7 +96,6 @@ def get_server_status(server_list=[]):
             if not stat:
                 stat = getattr(s, 'OS-EXT-STS:vm_state', None)
             status_dict.update({s.id:_(stat)})
-    print status_dict
     return status_dict
             
 def get_images(tenant_name=None):
