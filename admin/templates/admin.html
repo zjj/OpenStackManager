@@ -51,7 +51,7 @@ $if len(ctx.all_running_servers) != 0:
         </tr>
     $for s in ctx.all_running_servers:
         <tr>
-            <td>$ctx.tenants_dict[s.tenant_id]</td>
+            <td>$ctx.tenants_dict.get(s.tenant_id)</td>
             <td>$s.name</td>
             <td>$_(ctx.images_dict.get(s.image['id'], 'unmaintained image'))</td>
             <td>$_(ctx.flavors_dict.get(s.flavor['id'], 'unmaintained flavor'))</td>
