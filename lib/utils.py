@@ -18,6 +18,6 @@ def login_required(f):
     def wrap(*args, **kwargs):
         userid = web.ctx.session.get('userid',-1)
         if userid ==  -1:
-            raise web.seeother("/", absolute=True)
+            raise web.seeother("/auth/login", absolute=True)
         return f(*args, **kwargs)
     return wrap

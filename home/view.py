@@ -40,11 +40,10 @@ class FloatingIp:
         raise web.seeother("/home", absolute=True)
 
 class Home:
+    @login_required
     def GET(self):
         userid = web.ctx.session.get('userid',-1)
         superuser = is_superuser(userid)
-        if userid == -1:
-            raise web.seeother('/index', absolute=True)
         username = get_username(userid=userid)
         tenant_name = username
         servers = get_servers(userid).list()

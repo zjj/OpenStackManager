@@ -28,30 +28,34 @@ t_globals = {'csrf':csrf_token, '_':_}
 
 render = web.template.render('%s/templates/'%(mdir), globals=t_globals)
 
+render_nav = web.template.render('%s/templates/'%(mdir), base="nav_base", globals=t_globals)
+
 class Login:
     def GET(self):
         session = web.ctx.session
         if session.get('loggedin',0) == 1:
             raise web.seeother("/index", absolute=True)
         msg = None
+        referer = web.ctx.env.get('HTTP_REFERER', '/index')
         ctx = Storage(locals())
-        return render.login(ctx)
+        return render_nav.login(ctx)
 
     def POST(self):
         session = web.ctx.session
         input = web.input()
         username = input.username
         password = input.password
+        referer = input.get('referer','/index')
         validate = authenticate(passwd=password,username=username)
         if validate:
             userid = get_userid(username)
             session.update({'loggedin':1})
             session.update({'userid':userid})
-            raise web.seeother('/index', absolute=True)
+            raise web.seeother(referer, absolute=True)
         else:
             msg = u"username or password error"
             ctx = Storage(locals()) 
-            return render.login(ctx)
+            return render_nav.login(ctx)
 
 class Logout:
     def GET(self):  
@@ -64,7 +68,7 @@ class Signup:
         if session.get('loggedin',0) == 1:
             raise web.seeother("/index", absolute=True)
         ctx = Storage({'msg':None})
-        return render.signup(ctx)
+        return render_nav.signup(ctx)
 
     def POST(self):
         session = web.ctx.session
@@ -75,17 +79,17 @@ class Signup:
         if not username_re.match(username):
             msg = u"username is not valid, the length of it must >= 6 , and  it has to start with an alpha character"
             ctx = Storage(locals())
-            return render.signup(ctx)
+            return render_nav.signup(ctx)
             
         if password != password_confirm:
             msg = u"password not equal to confirmed password"
             ctx = Storage(locals())
-            return render.signup(ctx)
+            return render_nav.signup(ctx)
         email = request.email
         if not email_re.match(email):
             msg = u"Email not valid"
             ctx = Storage(locals())
-            return render.signup(ctx)
+            return render_nav.signup(ctx)
         userid = get_userid(username)
         if userid == -1:
             newuser = User(password=password, username=username, email=email)
@@ -95,7 +99,7 @@ class Signup:
             except:
                 msg = u"this email has been used"
                 ctx = Storage(locals())
-                return render.signup(ctx)
+                return render_nav.signup(ctx)
             newtenant = create_tenant(username)
             newtenant.add_user(get_keystoneuser_id(os_tenant_name), 
                                 get_role_id('admin'))
@@ -104,7 +108,7 @@ class Signup:
         else:
             msg = u"username exists"
             ctx = Storage(locals())
-            return render.signup(ctx)
+            return render_nav.signup(ctx)
         raise web.seeother("/login")
 
 render_fluid = web.template.render('%s/templates/'%(mdir), base="fluid", globals=t_globals)

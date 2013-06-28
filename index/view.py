@@ -36,7 +36,8 @@ class Lang:
         lang = i.get('lang')
         if lang:
             web.ctx.session['lang'] = lang
-        raise web.seeother("/index", absolute=True)   
+        referer = web.ctx.env.get('HTTP_REFERER')
+        raise web.seeother(referer, absolute=True)   
 
 class Edit:
     def GET(self):
