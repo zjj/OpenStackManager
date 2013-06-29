@@ -1,6 +1,6 @@
 $def with(ctx)
-<div class="container">
-  <form action="" method=POST class="form-horizontal form-signin">
+<div class="container"
+  <form action="" method=POST class="form-horizontal">
    <div class="control-group">
       <label class="control-label" for="inputUsername"><h2>$_("Sign up")</h2></label>
   </div>
@@ -49,7 +49,6 @@ $def with(ctx)
   </div>
 </form>
 </div>
-
 <script type="text/javascript">
 $$(document).ready(function(){
     var g_name_validate = false;
@@ -142,7 +141,7 @@ $$(document).ready(function(){
           $$("#inputConfirmPassword").parent().children(".help-inline").html("");}
     });
     
-    $$("form").submit(function(){
+    $$("form.form-horizontal").submit(function(){
         g_passwd_validate = ($$("#inputPassword")[0].value.length>5) && $$("#inputConfirmPassword")[0].value == $$("#inputPassword")[0].value ;
         if(g_name_validate && g_email_validate && g_passwd_validate)
             return true;

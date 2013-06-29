@@ -32,7 +32,7 @@ $def with(ctx)
 <div class="nav-collapse collapse navbar-inverse-collapse">
     <ul class="nav pull-right">
       <li>
-        <form class="navbar-form" action="/auth/login" method=POST>
+        <form class="navbar-form" action="/auth/login" method="POST">
          <input class="span2" name="username" type="text" placeholder="Username">
          <input class="span2" name="password" type="password" placeholder="Password">
          <button type="submit" class="btn btn-primary">$_("Sign in")</button>
@@ -52,10 +52,6 @@ $def with(ctx)
 </div>
 </div>
 </div>
-
-<div class="container">
 $:ctx
-</div>
-
 </body>
 </html>

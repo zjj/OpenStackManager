@@ -4,32 +4,32 @@ $def with(ctx)
    <input name="referer" type=hidden value="$ctx.referer">
    <div class="control-group">
       <label class="control-label"><h2>$_("Please sign in")</h2></label>
-  </div>
-  <div class="control-group error">
+   </div>
+   <div class="control-group error">
     <label class="control-label"></label>
       <div class="controls">
         <input type="hidden">
           $if ctx.msg:
               <span id="error_msg" class="help-inline">$_(ctx.msg)</span>
       </div>
-  </div>
-  <div id="login_name" class="control-group">
-    <label class="control-label" for="username"><strong>$_("Login Name")</strong></label>
-    <div class="controls">
-      <input name="username" type="text" id="username" placeholder="Username">
-    </div>
-  </div>
-  <div id="password" class="control-group">
+   </div>
+   <div id="login_name" class="control-group">
+     <label class="control-label" for="username"><strong>$_("Login Name")</strong></label>
+     <div class="controls">
+       <input name="username" type="text" id="username" placeholder="Username">
+     </div>
+   </div>
+   <div id="password" class="control-group">
     <label class="control-label" for="password"><strong>$_("Password")</strong></label>
-    <div class="controls">
+     <div class="controls">
       <input name="password" type="password" id="password" placeholder="Password">
-    </div>
-  </div>
-  <div id="submit" class="control-group">
+     </div>
+   </div>
+   <div id="submit" class="control-group">
     <div class="controls">
      <button class="btn btn-large btn-primary" type="submit">$_("Sign in")</button>
      <a href="/auth/signup">$_("sign up")</a>
     </div>
-  </div>
-</form>
+   </div>
+  </form>
 </div>
