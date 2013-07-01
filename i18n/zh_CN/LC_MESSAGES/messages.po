@@ -264,3 +264,6 @@ msgstr "状态"
 
 msgid "deleting"
 msgstr "删除中"
+
+msgid "Back to apply page"
+msgstr "返回虚拟机申请页"
