@@ -267,3 +267,6 @@ msgstr "删除中"
 
 msgid "Back to apply page"
 msgstr "返回虚拟机申请页"
+
+msgid "A flavor is an available hardware configuration for a server,defining sizes for RAM(MB), disk(GB)"
+msgstr "说明:flavor指定虚拟机的资源,cpus:处理器数,ram:内存(MB),disk:硬盘(GB)"
