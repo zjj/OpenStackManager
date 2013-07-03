@@ -32,13 +32,14 @@ $if len(ctx.running_servers) != 0:
     <legend>$_("My servers")  <span class="label label-info">$_("the servers that are running")</span> </legend>
     <table class='table'>
         <tr>
-            <th>$_("server")</th><th>$_("image")</th><th>$_("flavor")</th><th>$_("ip")</th><th>$_("action")</th>
+            <th>$_("server")</th><th>$_("image")</th><th>$_("flavor")</th><th>$_("status")</th><th>$_("ip")</th><th>$_("action")</th>
         </tr>
     $for s in ctx.running_servers:
         <tr>
             <td>$s.name</td>
             <td>$_(ctx.images_dict.get(s.image['id'], 'unmaintained image'))</td>
             <td>$_(ctx.flavors_dict.get(s.flavor['id'], 'unmaintained flavor'))</td>
+            <td id="$s.id">$_(getattr(s,"OS-EXT-STS:vm_state"))</td>
             <td>
                 $for ip_group, address in s.addresses.items():
                     $for ip in address:
@@ -53,6 +54,7 @@ $if len(ctx.running_servers) != 0:
             </td>
         </tr>
     <tr>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -121,3 +123,24 @@ $if len(ctx.servers) != 0:
     </table>
     </fieldset>
 
+<script type="text/javascript">
+$$(document).ready(function(){
+    setInterval(function(){
+      var all_servers = '';
+      var servers = $$("form[action=''] select");
+      for(var i=0;i<servers.length;i++){
+        all_servers += servers[i].name+'$$';
+      }
+      $$.post("/admin/updatestatus",{servers: all_servers},function(data){
+      var status = $$.parseJSON(data);  
+      $$.each(status, function(key, val){
+        $$('#'+key).html(val);
+      });
+      for(var i=0;i<servers.length;i++){
+        if(data.indexOf(servers[i].name)==-1){
+          $$('#'+servers[i].name).parent().remove();}
+      }
+      });
+    },5000);
+});
+</script>

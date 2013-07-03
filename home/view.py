@@ -13,7 +13,7 @@ urls = (
     '/add_floatingip', 'FloatingIp',
 )
 
-t_globals = {'csrf':csrf_token, '_':_}
+t_globals = {'csrf':csrf_token, '_':_, 'getattr':getattr}
 
 mdir = os.path.dirname(__file__)
 render = web.template.render('%s/templates/'%(mdir), base='base',globals=t_globals)

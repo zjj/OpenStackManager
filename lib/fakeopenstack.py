@@ -73,17 +73,7 @@ def get_tenant_servers(tenant_name=None):
     else:
         search_opts = {'tenant_id':get_tenant_id(tenant_name)}
     all_servers = nc.servers.list(search_opts=search_opts)
-    running_servers = []
-    if tenant_name != os_tenant_name:
-        for s in all_servers:
-            if getattr(s, "OS-EXT-STS:power_state", 0) == 1 and s.status == 'ACTIVE':    #running and active
-                running_servers.append(s)
-    else:
-        running_servers = all_servers
-        #for s in all_servers:
-        #    if getattr(s, "OS-EXT-STS:power_state", 0) == 1:
-        #        running_servers.append(s)
-    return running_servers
+    return all_servers
 
 def get_server_status(server_list=[]):
     status_dict={}
