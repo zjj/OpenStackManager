@@ -140,7 +140,7 @@ def reboot_servers(server_id=[]):
     servers = nc.servers.list(search_opts=search_opts)
     for s in servers:
         if s.id in server_id:
-            s.reboot(type="HARD")
+            s.reboot("HARD")
 
 def create_tenant(name):
     kc = keystone_client.Client(username=username,
