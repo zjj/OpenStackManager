@@ -3,6 +3,7 @@ from novaclient.v1_1 import client as nova_client
 from auth.model import get_username
 import ConfigParser
 import web
+from db import nova_db as db
 from i18n import custom_gettext as _
 
 keystone_config = ConfigParser.ConfigParser()
@@ -11,6 +12,7 @@ auth_url = keystone_config.get('keystone','auth_url')
 username = keystone_config.get('keystone','username')
 password = keystone_config.get('keystone','password')
 os_tenant_name = keystone_config.get('keystone','os_tenant_name')
+
 
 def security_ports_filter(security_ports=[]):
     ret = []
@@ -77,15 +79,11 @@ def get_tenant_servers(tenant_name=None):
 
 def get_server_status(server_list=[]):
     status_dict={}
-    nc = nova_client.Client(username, password, os_tenant_name, auth_url, service_type="compute")
-    search_opts = {'all_tenants':True}
-    servers = nc.servers.list(search_opts=search_opts)
-    for s in servers:
-        if s.id in server_list:
-            stat = getattr(s, 'OS-EXT-STS:task_state', None)
-            if not stat:
-                stat = getattr(s, 'OS-EXT-STS:vm_state', None)
-            status_dict.update({s.id:_(stat)})
+    for server in server_list:
+        instance_id = db.select('instance_id_mappings', what='id, uuid', where='uuid=$uuid', vars={'uuid': server}).list()[0].id
+        vm_state = db.select('instances', what='vm_state', where='id=$id', vars={'id': instance_id}).list()[0].vm_state
+        if vm_state != 'deleted':
+            status_dict.update({server:_(vm_state)})
     return status_dict
             
 def get_images(tenant_name=None):

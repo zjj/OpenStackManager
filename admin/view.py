@@ -85,7 +85,7 @@ class Delete:
 class UpdateStatus:
     def POST(self):
         web.header('Content-type','text/plain')
-        servers = web.input().servers.split("$")
+        servers = web.input().servers.split("$")[:-1:]
         status = get_server_status(servers);
         import simplejson as json
         return json.dumps(status)
