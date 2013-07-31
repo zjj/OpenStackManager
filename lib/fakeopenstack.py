@@ -81,9 +81,17 @@ def get_server_status(server_list=[]):
     status_dict={}
     for server in server_list:
         instance_id = db.select('instance_id_mappings', what='id, uuid', where='uuid=$uuid', vars={'uuid': server}).list()[0].id
-        vm_state = db.select('instances', what='vm_state', where='id=$id', vars={'id': instance_id}).list()[0].vm_state
-        if vm_state != 'deleted':
-            status_dict.update({server:_(vm_state)})
+        task_and_vm_state = db.select('instances', what='task_state, vm_state', where='id=$id', vars={'id': instance_id}).list()[0]
+        vm_state = task_and_vm_state.vm_state
+        task_state = task_and_vm_state.task_state
+        if task_state:
+            state = task_state
+            status_dict.update({server:_(state)})
+        else:
+            if vm_state != 'deleted':
+                state = vm_state
+                status_dict.update({server:_(state)})
+                 
     return status_dict
             
 def get_images(tenant_name=None):
