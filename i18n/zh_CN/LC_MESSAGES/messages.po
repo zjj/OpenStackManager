@@ -137,7 +137,7 @@ msgid "server name"
 msgstr "虚拟机"
 
 msgid "Apply"
-msgstr "提交"
+msgstr "申请"
 
 msgid "Applied servers"
 msgstr "待审核的虚拟机申请"
@@ -198,6 +198,10 @@ msgstr "我的floating ip"
 
 msgid "attach to"
 msgstr "绑定到"
+
+msgid "Attach"
+msgstr "绑定"
+
 
 msgid "unmaintained flavor"
 msgstr "一个不再维护的资源名单"
