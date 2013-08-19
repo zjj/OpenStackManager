@@ -26,6 +26,11 @@ CREATE TABLE `server` (
     `flavor` varchar(128)
 )
 ;
+CREATE TABLE `cache` (
+    `describle` varchar(128),
+    `detail` longtext
+)
+;
 
 -- if MYSQL ADD THIS line: ALTER TABLE `server` ADD CONSTRAINT `user_id_refs_id_fba847f1` FOREIGN KEY (`user`) REFERENCES `user` (`id`);
 

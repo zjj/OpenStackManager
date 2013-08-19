@@ -3,7 +3,8 @@ from novaclient.v1_1 import client as nova_client
 from auth.model import get_username
 import ConfigParser
 import web
-from db import nova_db as db
+import json
+from db import db as cache_db
 from i18n import custom_gettext as _
 
 keystone_config = ConfigParser.ConfigParser()
@@ -77,33 +78,58 @@ def get_tenant_servers(tenant_name=None):
     all_servers = nc.servers.list(search_opts=search_opts)
     return all_servers
 
+#get tenant servers from cache db
+def get_tenant_servers_db(tenant_name=None):
+    servers = cache_db.select('cache', what='detail', where="describle = 'servers'").list()[0].detail
+    servers = json.loads(servers)
+    all_servers = []
+    if tenant_name != None:
+        try:
+            all_servers = servers[tenant_name]
+        except KeyError:
+            all_servers = []
+    else:
+        for tenant, tenant_servers in servers:
+            all_servers += tenant_servers
+    return all_servers
+
 def get_server_status(server_list=[]):
     status_dict={}
-    for server in server_list:
-        instance_id = db.select('instance_id_mappings', what='id, uuid', where='uuid=$uuid', vars={'uuid': server}).list()[0].id
-        task_and_vm_state = db.select('instances', what='task_state, vm_state', where='id=$id', vars={'id': instance_id}).list()[0]
-        vm_state = task_and_vm_state.vm_state
-        task_state = task_and_vm_state.task_state
-        if task_state:
-            state = task_state
-            status_dict.update({server:_(state)})
-        else:
-            if vm_state != 'deleted':
-                state = vm_state
-                status_dict.update({server:_(state)})
-                 
+    servers = cache_db.select('cache', what='detail', where="describle = 'servers'").list()[0].detail
+    servers = json.loads(servers)
+    for tenant in servers:
+        for s in servers[tenant]:
+            if s['id'] in server_list:
+                server = s['id']
+                task_state = s.get("OS-EXT-STS:task_state", None)
+                vm_state = s.get("OS-EXT-STS:vm_state", None)
+                if task_state:
+                    state = task_state
+                    status_dict.update({server:_(state)})
+                else:
+                    if vm_state != 'deleted':
+                        state = vm_state
+                        status_dict.update({server:_(state)})
     return status_dict
-            
+                
 def get_images(tenant_name=None):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.images.list()
+
+def get_images_dict_db():
+    images = cache_db.select('cache', what='detail', where="describle = 'images'").list()[0].detail
+    images_dict = json.loads(images)
+    return images_dict
 
 def get_flavors(tenant_name=None):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.flavors.list()
 
-#TODO 
-#x = create_server('dsdddd', '30de55f0-aad5-4ec2-8f67-be8e510e02fd',  1,  'jj')
+def get_flavors_dict_db():
+    flavors = cache_db.select('cache', what='detail', where="describle = 'flavors'").list()[0].detail
+    flavors_dict = json.loads(flavors)
+    return flavors_dict
+
 def create_server(name, image, flavor, tenant_name):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.servers.create(name, image, flavor, key_name=tenant_name)
@@ -115,6 +141,12 @@ def create_floatingip(tenant_name):
 def get_floatingips(tenant_name):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")
     return nc.floating_ips.list()
+
+def get_floatingips_db(tenant_name):
+    floatingips_dict = cache_db.select('cache', what='detail', where="describle = 'floatingips'").list()[0].detail
+    floatingips_dict = json.loads(floatingips_dict)
+    floatingips = floatingips_dict[tenant_name]
+    return floatingips 
 
 def bind_floatingip(tenant_name, server_id, floatingip):
     nc = nova_client.Client(username, password, tenant_name, auth_url, service_type="compute")

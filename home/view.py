@@ -47,11 +47,8 @@ class Home:
         username = get_username(userid=userid)
         tenant_name = username
         servers = get_servers(userid).list()
-        running_servers = get_tenant_servers(tenant_name)
-        images = get_images(tenant_name)
-        images_dict = dict([(i.id, i.name) for i in images])
-        #Dealing with that the images were deleted in openstack,but the server table still
-        #contains some servers that use the old image. then to get the servers again.
+        running_servers = get_tenant_servers_db(tenant_name)
+        images_dict = get_images_dict_db()
         servers_x = []
         for server in servers:
             if server.image not in images_dict:
@@ -59,9 +56,8 @@ class Home:
             else:
                 servers_x.append(server)
         servers = servers_x
-        flavors = get_flavors(tenant_name)
-        flavors_dict = dict([(f.id,'cpus:%s ram:%s disk:%s'%(f.vcpus, f.ram, f.disk)) for f in flavors])
-        floating_ips = get_floatingips(tenant_name)
+        flavors_dict = get_flavors_dict_db()
+        floating_ips = get_floatingips_db(tenant_name)
         ctx = Storage(locals())
         return render.home(ctx)
 

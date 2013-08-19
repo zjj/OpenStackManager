@@ -21,13 +21,8 @@ $def with(ctx)
 <div class="navbar navbar-inverse navbar-fixed-top">
 <div class="navbar-inner">
 <div class="container">
-<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-  <span class="icon-bar"></span>
-  <span class="icon-bar"></span>
-  <span class="icon-bar"></span>
-</button>
 <a class="brand" href="/index">$_("Project Name")</a>
-<div class="nav-collapse collapse navbar-inverse-collapse">
+<div class="container">
     <ul class="nav pull-right">
     $if ctx.userid == -1:
         <li>
@@ -52,14 +47,13 @@ $def with(ctx)
         </ul>
         </div>
         </li>
-    <li class="divider-vertical"></li>
-      <li class="dropdown">
+    <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Language(语言)<b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li><a href="/index/lang?lang=zh_CN">中文</a></li>
             <li><a href="/index/lang?lang=en_US">English</a></li>
         </ul>
-      </li>
+    </li>
     </ul>
   </div>
 </div>

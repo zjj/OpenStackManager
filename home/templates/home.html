@@ -12,11 +12,11 @@ $ csrf_token = csrf()
 <tr>
 $for float_ip in ctx.floating_ips:
     <td>
-        $float_ip.ip 
-        <select name="$float_ip.ip" style="width:100px;">
+        $float_ip
+        <select name="$float_ip" style="width:100px;">
         <option value=''>$_("attach to")</option>
             $for s in ctx.running_servers:
-                <option value='$s.id'>$s.name</option>
+                <option value="$s['id']">$s['name']</option>
         </select>
      </td>
 <td> <button class="btn btn-small btn-primary" type="submit">$_("Attach")</button></td>
@@ -36,17 +36,17 @@ $if len(ctx.running_servers) != 0:
         </tr>
     $for s in ctx.running_servers:
         <tr>
-            <td>$s.name</td>
-            <td>$_(ctx.images_dict.get(s.image['id'], 'unmaintained image'))</td>
-            <td>$_(ctx.flavors_dict.get(s.flavor['id'], 'unmaintained flavor'))</td>
-            <td id="$s.id">$_(getattr(s,"OS-EXT-STS:vm_state"))</td>
+            <td>$s['name']</td>
+            <td>$_(s['image']['name'])</td>
+            <td>$_(s['flavor']['desc'])</td>
+            <td id="$s['id']">$_(s["OS-EXT-STS:vm_state"])</td>
             <td>
-                $for ip_group, address in s.addresses.items():
+                $for ip_group, address in s['addresses'].items():
                     $for ip in address:
                         $ip['addr'] 
             </td>
             <td>
-                <select name="$s.id">
+                <select name="$s['id']">
                     <option> </option>
                     <option value='reboot'>$_("reboot")</option>
                     <option value='delete'>$_("delete")</option>
