@@ -101,13 +101,13 @@ $if len(ctx.running_servers) != 0:
 </tr>
 <tr>
 <td colspan="3"><span class="help-block"><i class="icon-hand-right"> </i>$_("A flavor is an available hardware configuration for a server,defining sizes for RAM(MB), disk(GB)")</span></td>
+<td></td>
 </tr>
 </table>
 </fieldset>
 </form>
 
 $if len(ctx.servers) != 0:
-    <p>
     <fieldset>
     <legend>$_("Applied servers") <span class="label label-info">$_("these servers are pending")</span> </legend>
     <table class='table'>
